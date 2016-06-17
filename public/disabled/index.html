@@ -1,0 +1,15 @@
+<!doctype html>
+<html ng-app="todoApp">
+  <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
+    <script src="todo.js"></script>
+  </head>
+  <body>
+    <h2>Todo</h2>
+    <div ng-controller="TodoListController">
+      <input type="text" ng-model="name"> {{name}}
+      <button ng-click="add()">add</button>
+    </div>
+
+  </body>
+</html>
