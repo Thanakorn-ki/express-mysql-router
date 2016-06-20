@@ -9,11 +9,15 @@ var pool = mysql.createPool({
     password: '',
     database: 'run'
 });
+var cors = require('cors')
+var corsOptions = {
+  origin: ['http://localhost:8080', 'http://127.0.0.1:8080', 'http://192.168.2.125:8080/disabled' ,'http://localhost:8080/disabled' ]
+}
 // ////////////////////////////////////////////////////
-router.get('/users/:id', function(req, res) {
+router.get('/users/:id', cors(corsOptions), function(req, res) {
         console.log(req.params.id);
         pool.getConnection(function(err, conn) {
-            conn.query('SELECT * from member where id = ' + req.params.id, function(err, rows, fields) {
+            conn.query('SELECT * from member where mem_id = ' + req.params.id, function(err, rows, fields) {
                 if (err) throw err;
                 res.json(rows);
                 conn.release();
@@ -21,7 +25,7 @@ router.get('/users/:id', function(req, res) {
         });
     })
     // ////////////////////////////////////////////////////
-router.get('/users', function(req, res) {
+router.get('/users', cors(corsOptions), function(req, res) {
         pool.getConnection(function(err, conn) {
             conn.query('SELECT * from member', function(err, rows, fields) {
                 if (err) throw err;
@@ -31,9 +35,10 @@ router.get('/users', function(req, res) {
         });
     })
     // ////////////////////////////////////////////////////
-router.post('/users', function(req, res) {
+router.post('/users', cors(corsOptions), function(req, res) {
+  console.log(req.body)
     pool.getConnection(function(err, conn) {
-        conn.query('insert into member values ("","' + req.body.name + '","","","","","","disabled")', function(err, rows, fields) {
+        conn.query('insert into member values ("","' + req.body.name + '","' + req.body.surname + '","' + req.body.gender + '","' + req.body.age + '","","","","","","","","'+req.body.type+'")', function(err, rows, fields) {
             if (err) throw err;
             res.send("inserted");
             conn.release();
@@ -41,9 +46,9 @@ router.post('/users', function(req, res) {
     });
 });
 // ////////////////////////////////////////////////////
-router.delete('/users/:id', function(req, res) {
+router.delete('/users/:id', cors(corsOptions), function(req, res) {
     pool.getConnection(function(err, conn) {
-        conn.query('DELETE from member where id = ' + req.params.id, function(err, rows, fields) {
+        conn.query('DELETE from member where mem_id = ' + req.params.id, function(err, rows, fields) {
             if (err) throw err;
             res.send("deletes");
             conn.release();
