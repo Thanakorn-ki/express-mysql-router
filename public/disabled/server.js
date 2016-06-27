@@ -9,6 +9,13 @@ var pool = mysql.createPool({
     password: '',
     database: 'run'
 });
+router.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+    res.setHeader('Access-Control-Allow-Credentials', true);
+    next();
+  });
 var cors = require('cors')
 var corsOptions = {
   origin: ['http://localhost:8080', 'http://127.0.0.1:8080', 'http://192.168.2.125:8080/disabled' ,'http://localhost:8080/disabled' ]
@@ -47,6 +54,7 @@ router.post('/users', cors(corsOptions), function(req, res) {
 });
 // ////////////////////////////////////////////////////
 router.delete('/users/:id', cors(corsOptions), function(req, res) {
+  console.log(req.params.id)
     pool.getConnection(function(err, conn) {
         conn.query('DELETE from member where mem_id = ' + req.params.id, function(err, rows, fields) {
             if (err) throw err;
@@ -55,5 +63,26 @@ router.delete('/users/:id', cors(corsOptions), function(req, res) {
         });
     });
 });
-
+// ////////////////////////////////////////////////////
+router.put('/users', cors(corsOptions), function(req, res) {
+  console.log(req.body)
+    pool.getConnection(function(err, conn) {
+        conn.query('UPDATE member set mem_name = '+req.body.mem_name
+        +', mem_surname = '+req.body.mem_gender
+        +' , mem_age = '+req.body.mem_age
+        +' , mem_email = '+req.body.mem_email
+        +' , mem_tel = '+req.body.mem_tel
+        +' , mem_date = '+req.body.mem_date
+        +' , mem_distance = '+req.body.mem_distance
+        +' , mem_pic = '+req.body.mem_pic
+        +' , mem_discription = '+req.body.mem_discription
+        +' , group_id = '+req.body.group_id
+        +' , mem_type= '+req.body.mem_type
+        +' where mem_id = ' + req.body.id, function(err, rows, fields) {
+            if (err) throw err;
+            res.send("Update");
+            conn.release();
+        });
+    });
+});
 module.exports = router
