@@ -15,43 +15,43 @@ router.use(function(req, res, next) {
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
     res.setHeader('Access-Control-Allow-Credentials', true);
     next();
-  });
+});
 var cors = require('cors')
 var corsOptions = {
-  origin: ['http://localhost:8080', 'http://127.0.0.1:8080', 'http://192.168.2.125:8080/disabled' ,'http://localhost:8080/disabled' ]
-}
-// ////////////////////////////////////////////////////
-router.get('/users/normal/:id', cors(corsOptions), function(req, res) {
-    pool.getConnection(function(err, conn) {
-        conn.query('SELECT * from member where mem_type = "normal" and mem_id = '+ req.params.id, function(err, rows, fields) {
-            if (err) throw err;
-            res.json(rows);
-            conn.release();
+        origin: ['http://localhost:8080', 'http://127.0.0.1:8080', 'http://192.168.2.125:8080/disabled', 'http://localhost:8080/disabled']
+    }
+    // ////////////////////////////////////////////////////
+router.get('/members/normal/:id', cors(corsOptions), function(req, res) {
+        pool.getConnection(function(err, conn) {
+            conn.query('SELECT * from member where mem_type = "normal" and mem_id = ' + req.params.id, function(err, rows, fields) {
+                if (err) throw err;
+                res.json(rows);
+                conn.release();
+            });
         });
-    });
-})
-// ////////////////////////////////////////////////////
-router.get('/users/normal', cors(corsOptions), function(req, res) {
-    pool.getConnection(function(err, conn) {
-        conn.query('SELECT * from member where mem_type = "normal"', function(err, rows, fields) {
-            if (err) throw err;
-            res.json(rows);
-            conn.release();
+    })
+    // ////////////////////////////////////////////////////
+router.get('/members/normal', cors(corsOptions), function(req, res) {
+        pool.getConnection(function(err, conn) {
+            conn.query('SELECT * from member where mem_type = "normal"', function(err, rows, fields) {
+                if (err) throw err;
+                res.json(rows);
+                conn.release();
+            });
         });
-    });
-})
-// ////////////////////////////////////////////////////
-router.get('/users/disabled/:id', cors(corsOptions), function(req, res) {
-    pool.getConnection(function(err, conn) {
-        conn.query('SELECT * from member where mem_type = "disabled" and mem_id = '+ req.params.id, function(err, rows, fields) {
-            if (err) throw err;
-            res.json(rows);
-            conn.release();
+    })
+    // ////////////////////////////////////////////////////
+router.get('/members/disabled/:id', cors(corsOptions), function(req, res) {
+        pool.getConnection(function(err, conn) {
+            conn.query('SELECT * from member where mem_type = "disabled" and mem_id = ' + req.params.id, function(err, rows, fields) {
+                if (err) throw err;
+                res.json(rows);
+                conn.release();
+            });
         });
-    });
-})
-// ////////////////////////////////////////////////////
-router.get('/users/disabled', cors(corsOptions), function(req, res) {
+    })
+    // ////////////////////////////////////////////////////
+router.get('/members/disabled', cors(corsOptions), function(req, res) {
         pool.getConnection(function(err, conn) {
             conn.query('SELECT * from member where mem_type = "disabled"', function(err, rows, fields) {
                 if (err) throw err;
@@ -60,8 +60,8 @@ router.get('/users/disabled', cors(corsOptions), function(req, res) {
             });
         });
     })
-// ////////////////////////////////////////////////////
-router.get('/users/:id', cors(corsOptions), function(req, res) {
+    // ////////////////////////////////////////////////////
+router.get('/members/:id', cors(corsOptions), function(req, res) {
         console.log(req.params.id);
         pool.getConnection(function(err, conn) {
             conn.query('SELECT * from member where mem_id = ' + req.params.id, function(err, rows, fields) {
@@ -72,7 +72,7 @@ router.get('/users/:id', cors(corsOptions), function(req, res) {
         });
     })
     // ////////////////////////////////////////////////////
-router.get('/users', cors(corsOptions), function(req, res) {
+router.get('/members', cors(corsOptions), function(req, res) {
         pool.getConnection(function(err, conn) {
             conn.query('SELECT * from member', function(err, rows, fields) {
                 if (err) throw err;
@@ -82,42 +82,44 @@ router.get('/users', cors(corsOptions), function(req, res) {
         });
     })
     // ////////////////////////////////////////////////////
-router.post('/users', cors(corsOptions), function(req, res) {
+router.post('/members', cors(corsOptions), function(req, res) {
     pool.getConnection(function(err, conn) {
-        conn.query('insert into member values ("","'
-        + req.body.mem_name
-        + '","'
-        + req.body.mem_surname
-        + '","'
-        + req.body.mem_gender
-        + '","'
-        + req.body.mem_age
-        + '","'
-        + req.body.mem_email
-        + '","'
-        + req.body.mem_tel
-        + '","'
-        + req.body.mem_date
-        + '","'
-        + req.body.mem_distance
-        + '","'
-        + req.body.mem_pic
-        + '","'
-        + req.body.mem_discription
-        + '","'
-        + req.body.group_id
-        + '","'
-        + req.body.mem_type+'")',
-        function(err, rows, fields) {
-            if (err) throw err;
-            res.send("inserted");
-            conn.release();
-        });
+        conn.query('insert into member values ("","' +
+            req.body.mem_name +
+            '","' +
+            req.body.mem_surname +
+            '","' +
+            req.body.mem_gender +
+            '","' +
+            req.body.mem_age +
+            '","' +
+            req.body.mem_email +
+            '","' +
+            req.body.mem_tel +
+            '","' +
+            req.body.mem_date +
+            '","' +
+            req.body.mem_distance +
+            '","' +
+            req.body.mem_pic +
+            '","' +
+            req.body.mem_discription +
+            '","' +
+            req.body.group_id +
+            '","' +
+            req.body.mem_type +
+            '","' +
+            req.body.mem_status + '")',
+            function(err, rows, fields) {
+                if (err) throw err;
+                res.send("inserted");
+                conn.release();
+            });
     });
 });
 // ////////////////////////////////////////////////////
-router.delete('/users/:id', cors(corsOptions), function(req, res) {
-  console.log(req.params.id)
+router.delete('/members/:id', cors(corsOptions), function(req, res) {
+    // console.log(req.params.id)
     pool.getConnection(function(err, conn) {
         conn.query('DELETE from member where mem_id = ' + req.params.id, function(err, rows, fields) {
             if (err) throw err;
@@ -127,26 +129,28 @@ router.delete('/users/:id', cors(corsOptions), function(req, res) {
     });
 });
 // ////////////////////////////////////////////////////
-router.put('/users', cors(corsOptions), function(req, res) {
-  console.log(req.body)
+router.put('/members', cors(corsOptions), function(req, res) {
+    console.log(req.body)
     pool.getConnection(function(err, conn) {
-        conn.query('UPDATE member set mem_name = '+req.body.mem_name
-        +', mem_surname = '+req.body.mem_surname
-        +', mem_gender = '+req.body.mem_gender
-        +' , mem_age = '+req.body.mem_age
-        +' , mem_email = '+req.body.mem_email
-        +' , mem_tel = '+req.body.mem_tel
-        +' , mem_date = '+req.body.mem_date
-        +' , mem_distance = '+req.body.mem_distance
-        +' , mem_pic = '+req.body.mem_pic
-        +' , mem_discription = '+req.body.mem_discription
-        +' , group_id = '+req.body.group_id
-        +' , mem_type= '+req.body.mem_type
-        +' where mem_id = ' + req.body.id, function(err, rows, fields) {
-            if (err) throw err;
-            res.send("Update");
-            conn.release();
-        });
+        conn.query('UPDATE member set mem_name = ' + req.body.mem_name +
+            ', mem_surname = ' + req.body.mem_surname +
+            ', mem_gender = ' + req.body.mem_gender +
+            ' , mem_age = ' + req.body.mem_age +
+            ' , mem_email = ' + req.body.mem_email +
+            ' , mem_tel = ' + req.body.mem_tel +
+            ' , mem_date = ' + req.body.mem_date +
+            ' , mem_distance = ' + req.body.mem_distance +
+            ' , mem_pic = ' + req.body.mem_pic +
+            ' , mem_discription = ' + req.body.mem_discription +
+            ' , group_id = ' + req.body.group_id +
+            ' , mem_type= ' + req.body.mem_type +
+            ' , mem_type= ' + req.body.mem_status +
+            ' where mem_id = ' + req.body.id,
+            function(err, rows, fields) {
+                if (err) throw err;
+                res.send("Update");
+                conn.release();
+            });
     });
 });
 module.exports = router
