@@ -83,6 +83,7 @@ router.get('/members', cors(corsOptions), function(req, res) {
     })
     // ////////////////////////////////////////////////////
 router.post('/members', cors(corsOptions), function(req, res) {
+  console.log(req.body.mem_pay)
     pool.getConnection(function(err, conn) {
         conn.query('insert into member values ("","' +
             req.body.mem_name +
@@ -109,7 +110,9 @@ router.post('/members', cors(corsOptions), function(req, res) {
             '","' +
             req.body.mem_type +
             '","' +
-            req.body.mem_status + '")',
+            req.body.mem_status +
+            '","' +
+            req.body.mem_pay + '")',
             function(err, rows, fields) {
                 if (err) throw err;
                 res.send("inserted");
@@ -144,7 +147,8 @@ router.put('/members', cors(corsOptions), function(req, res) {
             ' , mem_discription = ' + req.body.mem_discription +
             ' , group_id = ' + req.body.group_id +
             ' , mem_type= ' + req.body.mem_type +
-            ' , mem_type= ' + req.body.mem_status +
+            ' , mem_status= ' + req.body.mem_status +
+            ' , mem_pay= ' + req.body.mem_pay +
             ' where mem_id = ' + req.body.id,
             function(err, rows, fields) {
                 if (err) throw err;
@@ -153,4 +157,6 @@ router.put('/members', cors(corsOptions), function(req, res) {
             });
     });
 });
+////////////////////////////////////////////////////////////
+
 module.exports = router
