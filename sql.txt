@@ -1,0 +1,3 @@
+SELECT  request.*,m1.mem_name,m2.mem_name FROM `request`
+JOIN member as m1 ON request.mem_id=m1.mem_id
+JOIN member as m2 ON request.join_event=m2.mem_id

@@ -51,6 +51,22 @@ router.get('/members/disabled/:id', cors(corsOptions), function(req, res) {
         });
     })
     // ////////////////////////////////////////////////////
+router.get('/members/event/:id', cors(corsOptions), function(req, res) {
+        pool.getConnection(function(err, conn) {
+            conn.query('select request.*,' +
+                'm1.mem_name as "name_disabled" ,' +
+                'm1.mem_surname as surname_disabled ,' +
+                'm2.mem_name as "name_normal",' +
+                'm2.mem_surname as "surname_normal' +
+                '" from request JOIN member as m1 ON request.mem_id=m1.mem_id JOIN member as m2 ON request.join_event=m2.mem_id where event_id =' + req.params.id,
+                function(err, rows, fields) {
+                    if (err) throw err;
+                    res.send(rows)
+                    conn.release();
+                });
+        });
+    })
+    // ////////////////////////////////////////////////////
 router.get('/members/disabled', cors(corsOptions), function(req, res) {
         pool.getConnection(function(err, conn) {
             conn.query('SELECT * from member where mem_type = "disabled"', function(err, rows, fields) {
@@ -160,10 +176,15 @@ router.put('/members', cors(corsOptions), function(req, res) {
 ////////////////////////////////////////////////////////////
 router.get('/request', cors(corsOptions), function(req, res) {
     pool.getConnection(function(err, conn) {
-        conn.query('select * from request',
+        conn.query('select request.*,' +
+            'm1.mem_name as "name_disabled" ,' +
+            'm1.mem_surname as surname_disabled ,' +
+            'm2.mem_name as "name_normal",' +
+            'm2.mem_surname as "surname_normal' +
+            '" from request JOIN member as m1 ON request.mem_id=m1.mem_id JOIN member as m2 ON request.join_event=m2.mem_id',
             function(err, rows, fields) {
                 if (err) throw err;
-                res.send(rows);
+                res.send(rows)
                 conn.release();
             });
     });
@@ -172,15 +193,62 @@ router.get('/request', cors(corsOptions), function(req, res) {
 router.post('/request', cors(corsOptions), function(req, res) {
     pool.getConnection(function(err, conn) {
         conn.query('UPDATE member set mem_status="active" where mem_id="' + req.body.mem_id + '"',
-        conn.query('UPDATE member set mem_status="active" where mem_id="' + req.body.join_event + '"',
-        conn.query('insert into request values("","' + req.body.mem_id + '","' + req.body.join_event + '","' + req.body.event_id + '")',
-            function(err, rows, fields) {
-                if (err) throw err;
-                res.send("insert request");
-                conn.release();
-            })));
+            conn.query('UPDATE member set mem_status="active" where mem_id="' + req.body.join_event + '"',
+                conn.query('insert into request values("","' + req.body.mem_id + '","' + req.body.join_event + '","' + req.body.event_id + '")',
+                    function(err, rows, fields) {
+                        if (err) throw err;
+                        res.send("insert request");
+                        conn.release();
+                    })));
     });
 });
 ////////////////////////////////////////////////////////////
-
+router.get('/event', cors(corsOptions), function(req, res) {
+    pool.getConnection(function(err, conn) {
+        conn.query('select * from event',
+            function(err, rows, fields) {
+                if (err) throw err;
+                res.send(rows)
+                conn.release();
+            });
+    });
+});
+////////////////////////////////////////////////////////////
+router.post('/event', cors(corsOptions), function(req, res) {
+    pool.getConnection(function(err, conn) {
+        conn.query('insert into event values("","' + req.body.event_name + '","' + req.body.event_date + '","' + req.body.event_location + '","' + req.body.request_id + '")',
+            function(err, rows, fields) {
+                if (err) throw err;
+                res.send('insert event')
+                conn.release();
+            });
+    });
+});
+////////////////////////////////////////////////////////////
+router.delete('/event/:id', cors(corsOptions), function(req, res) {
+    pool.getConnection(function(err, conn) {
+        conn.query('delete from event where event_id = ' + req.params.id,
+            function(err, rows, fields) {
+                if (err) throw err;
+                res.send('delete event')
+                conn.release();
+            });
+    });
+});
+////////////////////////////////////////////////////////////
+router.put('/event', cors(corsOptions), function(req, res) {
+    pool.getConnection(function(err, conn) {
+        conn.query('update event set event_name = ' + req.body.event_name +
+            ',event_date=' + req.body.event_date +
+            ',event_location=' + req.body.event_location +
+            ',request_id=' + req.body.request_id +
+            ', where event_id = ' + req.params.id,
+            function(err, rows, fields) {
+                if (err) throw err;
+                res.send('updete event name' + req.body.event_name)
+                conn.release();
+            });
+    });
+});
+////////////////////////////////////////////////////////////
 module.exports = router
