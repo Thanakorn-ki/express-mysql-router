@@ -83,7 +83,7 @@ router.get('/members', cors(corsOptions), function(req, res) {
     })
     // ////////////////////////////////////////////////////
 router.post('/members', cors(corsOptions), function(req, res) {
-  console.log(req.body.mem_pay)
+    console.log(req.body.mem_pay)
     pool.getConnection(function(err, conn) {
         conn.query('insert into member values ("","' +
             req.body.mem_name +
@@ -155,6 +155,30 @@ router.put('/members', cors(corsOptions), function(req, res) {
                 res.send("Update");
                 conn.release();
             });
+    });
+});
+////////////////////////////////////////////////////////////
+router.get('/request', cors(corsOptions), function(req, res) {
+    pool.getConnection(function(err, conn) {
+        conn.query('select * from request',
+            function(err, rows, fields) {
+                if (err) throw err;
+                res.send(rows);
+                conn.release();
+            });
+    });
+});
+////////////////////////////////////////////////////////////
+router.post('/request', cors(corsOptions), function(req, res) {
+    pool.getConnection(function(err, conn) {
+        conn.query('UPDATE member set mem_status="active" where mem_id="' + req.body.mem_id + '"',
+        conn.query('UPDATE member set mem_status="active" where mem_id="' + req.body.join_event + '"',
+        conn.query('insert into request values("","' + req.body.mem_id + '","' + req.body.join_event + '","' + req.body.event_id + '")',
+            function(err, rows, fields) {
+                if (err) throw err;
+                res.send("insert request");
+                conn.release();
+            })));
     });
 });
 ////////////////////////////////////////////////////////////
