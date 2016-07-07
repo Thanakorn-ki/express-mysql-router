@@ -9,7 +9,8 @@
     "express": "^4.13.4",
     "mint-ui": "^0.1.12",
     "mysql": "^2.11.1",
-    "node-mariadb": "^0.1.1"
+    "node-mariadb": "^0.1.1",
+    "q": "^1.4.1"
   },
   "devDependencies": {},
   "scripts": {
