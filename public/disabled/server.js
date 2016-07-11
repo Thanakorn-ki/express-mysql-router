@@ -1,5 +1,6 @@
 var express = require('express');
 var bodyParser = require('body-parser');
+var respond = require('../helper/respond');
 var q = require('q');
 var jsonParser = bodyParser.json()
 var router = express.Router()
@@ -27,7 +28,8 @@ router.get('/members/normal/:id', cors(corsOptions), function(req, res) {
         pool.getConnection(function(err, conn) {
             conn.query('SELECT * from member where member.mem_type = "normal" and member.mem_id = ' + req.params.id, function(err, rows, fields) {
                 if (err) throw err;
-                res.json(rows);
+                // res.json(rows);
+                respond(res, rows);
                 conn.release();
             });
         });
@@ -45,17 +47,17 @@ router.get('/members/normal', cors(corsOptions), function(req, res) {
     })
     // ////////////////////////////////////////////////////
     // get all type disabled
-    router.get('/members/disabled', cors(corsOptions), function(req, res) {
-            pool.getConnection(function(err, conn) {
-                conn.query('SELECT * from member where mem_type = "disabled"', function(err, rows, fields) {
-                    if (err) throw err;
-                    res.json(rows);
-                    conn.release();
-                });
+router.get('/members/disabled', cors(corsOptions), function(req, res) {
+        pool.getConnection(function(err, conn) {
+            conn.query('SELECT * from member where mem_type = "disabled"', function(err, rows, fields) {
+                if (err) throw err;
+                res.json(rows);
+                conn.release();
             });
-        })
-        // ////////////////////////////////////////////////////
-        // get all type disabled and id traget
+        });
+    })
+    // ////////////////////////////////////////////////////
+    // get all type disabled and id traget
 router.get('/members/disabled/:id', cors(corsOptions), function(req, res) {
         pool.getConnection(function(err, conn) {
             conn.query('SELECT * from member where mem_type = "disabled" and mem_id = ' + req.params.id, function(err, rows, fields) {
@@ -91,66 +93,48 @@ router.get('/members', cors(corsOptions), function(req, res) {
     // ////////////////////////////////////////////////////
     // push data member and get id member and push detail_event
 router.post('/members', cors(corsOptions), function(req, res) {
-    q.promise(function(resolve, reject, notify) {
         pool.getConnection(function(err, conn) {
-            conn.query('insert into member values ("","' +
-                req.body.mem_name +
-                '","' +
-                req.body.mem_surname +
-                '","' +
-                req.body.mem_gender +
-                '","' +
-                req.body.mem_age +
-                '","' +
-                req.body.mem_email +
-                '","' +
-                req.body.mem_tel +
-                '","' +
-                req.body.mem_date +
-                '","' +
-                req.body.mem_distance +
-                '","' +
-                req.body.mem_pic +
-                '","' +
-                req.body.mem_discription +
-                '","' +
-                req.body.mem_type +
-                '","' +
-                req.body.mem_disabled_type + '")',
-                function(err, rows, fields) {
-                    if (err) reject(err);
-                    resolve('ok')
+            conn.beginTransaction(function(transactionError) {
+                q.promise(function(resolve, reject, notify) {
+                    if (transactionError) {
+                        reject(transactionError)
+                    }
+                    conn.query('insert into member values ("",?,?,?,?,?,?,?,?,?,?,?)', [req.body.mem_name, req.body.mem_surname, req.body.mem_gender, req.body.mem_age, req.body.mem_email, req.body.mem_tel, req.body.mem_date, req.body.mem_pic, req.body.mem_discription, req.body.mem_type, req.body.mem_disabled_type],
+                        function(err, rows, fields) {
+                            // console.log(rows.insertId);
+                            if (err) {
+                              reject(err);
+                            }
+                            resolve(rows.insertId)
+                        });
+                }).then(function(response_new) {
+                    return q.promise(function(resolve, reject, notify) {
+                        conn.query('INSERT INTO detail_event values ("","' + response_new + '","unactive","' + req.body.event_id + '","register")',
+                            function(err, rows, fields) {
+                                if (err) {
+                                    reject(err);
+                                }
+                                resolve('ok');
+                            });
+                    })
+                }).then(function() {
+                    res.send('register success')
+                    conn.commit(function(err) {
+                        if (err) {
+                            reject(err)
+                        }
+                    })
                     conn.release();
-                });
-        });
-    }).then(function(response) {
-      return q.promise(function(resolve, reject, notify) {
-        if ('ok' === response) {
-            pool.getConnection(function(err, conn) {
-                conn.query('SELECT * FROM `member` ORDER BY mem_id DESC LIMIT 1',
-                    function(err, rows, fields) {
-                        if (err) reject(err);
-                        resolve(rows[0])
-                        conn.release();
-                    });
+                }).catch(function(error) {
+                    console.log(error)
+                    conn.rollback(function() {});
+                    conn.release();
+                })
             })
-        }
-      })
-    }).then(function(response_new){
-        return q.promise(function(resolve, reject, notify) {
-          pool.getConnection(function(err, conn) {
-              conn.query('INSERT INTO detail_event values ("","'+response_new.mem_id+'","unactive","'+req.body.event_id+'","register")',
-                  function(err, rows, fields) {
-                      if (err) throw err;
-                      res.send('register success')
-                      conn.release();
-                  });
-          })
-        })
+        });
     })
-});
-// ////////////////////////////////////////////////////
-// delete member by id
+    // ////////////////////////////////////////////////////
+    // delete member by id
 router.delete('/members/:id', cors(corsOptions), function(req, res) {
     pool.getConnection(function(err, conn) {
         conn.query('DELETE from member where mem_id = ' + req.params.id, function(err, rows, fields) {
@@ -211,7 +195,7 @@ router.get('/event/:id', cors(corsOptions), function(req, res) {
 // push data event
 router.post('/event', cors(corsOptions), function(req, res) {
     pool.getConnection(function(err, conn) {
-        conn.query('insert into event values("","' + req.body.event_name + '","' + req.body.event_date + '","' + req.body.event_location + '","'+req.body.event_distance+'","'+req.body.event_price+'")',
+        conn.query('insert into event values("","' + req.body.event_name + '","' + req.body.event_date + '","' + req.body.event_location + '","' + req.body.event_distance + '","' + req.body.event_price + '")',
             function(err, rows, fields) {
                 if (err) throw err;
                 res.send('insert event')
@@ -222,7 +206,7 @@ router.post('/event', cors(corsOptions), function(req, res) {
 ////////////////////////////////////////////////////////////
 router.delete('/event/:id', cors(corsOptions), function(req, res) {
     pool.getConnection(function(err, conn) {
-        conn.query('DELETE from event where event_id = ' + req.params.id,
+        conn.query('DELETE from event where event_id = :id', [req.params.id],
             function(err, rows, fields) {
                 if (err) throw err;
                 res.send('delete event')
@@ -287,7 +271,7 @@ router.get('/detail_event', cors(corsOptions), function(req, res) {
 ////////////////////////////////////////////////////////////
 router.get('/detail_event/:id', cors(corsOptions), function(req, res) {
     pool.getConnection(function(err, conn) {
-        conn.query('SELECT * FROM `detail_event` ,member where detail_event.mem_id = member.mem_id and detail_event.event_id ='+req.params.id,
+        conn.query('SELECT * FROM `detail_event` ,member where detail_event.mem_id = member.mem_id and detail_event.event_id =' + req.params.id,
             function(err, rows, fields) {
                 if (err) throw (err);
                 res.send(rows)
@@ -296,9 +280,10 @@ router.get('/detail_event/:id', cors(corsOptions), function(req, res) {
     })
 });
 ////////////////////////////////////////////////////////////
-router.post('/detail_event', cors(corsOptions), function(req, res) {
+router.post('/detail_event', function(req, res) {
+    console.log(req.route);
     pool.getConnection(function(err, conn) {
-        conn.query('INSERT INTO `detail_event` values("","' + req.body.mem_id + '","' + req.body.event_id + '","' + req.body.status_pay + '") ',
+        conn.query('INSERT INTO `detail_event` values("","' + req.body.mem_id + '","' + req.body.detail_match + '","' + req.body.event_id + '","' + req.body.status_pay + '") ',
             function(err, rows, fields) {
                 if (err) throw (err);
                 res.send('insert detail_event')
@@ -306,5 +291,5 @@ router.post('/detail_event', cors(corsOptions), function(req, res) {
             });
     })
 });
-////////////////////////////////////////////////////////////
+//////////////////////////////////});//////////////////////////
 module.exports = router
