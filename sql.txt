@@ -1,3 +1,16 @@
 SELECT  request.*,m1.mem_name,m2.mem_name FROM `request`
 JOIN member as m1 ON request.mem_id=m1.mem_id
 JOIN member as m2 ON request.join_event=m2.mem_id
+
+
+ประเภทความพิการ
+1. พิการทางสายตา (ตาบอดสนิท) : blindness impaired
+2. พิการทางสายตา (สายตาเลือนราง) : Visually impaired
+3. พิการทางได้ยิน (หูหนวกสนิท) : Impaired hearing (Completely deaf)
+4. พิการทางการได้ยิน (หูตึง) : Hearing impaired (deaf)
+5. พิการทางการเคลื่อนไหว (ไม่ได้นั่งรถวีลแชร์) : Physical Disability (Not a wheelchair)
+6. พิการทางการเคลื่อนไหว (นั่งรถวีลแชร์) : Physical Disability (A wheelchair)
+7. พิการทางการเรียนรู้ : Learning Disabilities
+8. พิการทางสติปัญญา : Intellectually disabled
+9. พิการทางจิตใจหรือพฤติกรรม : Mental or behavioral disabilities
+10. ออทิสติก : Austitic

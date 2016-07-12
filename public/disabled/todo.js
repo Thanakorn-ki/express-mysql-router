@@ -2346,8 +2346,10 @@ angular.module('todoApp', [])
         $scope.add = function() {
           console.log('test');
             var data = {
+              mem_id_num: '1730600113916',
               mem_name: 'ธนากร',
               mem_surname: 'กิจสวัสดิ์',
+              mem_nickname: 'อั้ม',
               mem_gender: 'm',
               mem_age: '22',
               mem_email: 'thanakornaum@gmail.com',
@@ -2359,15 +2361,15 @@ angular.module('todoApp', [])
               mem_disabled_type: 'blind',
               event_id: 19
             }
-            // $http.post('http://localhost:10000/members/', data).then(function(res) {
-            //   console.log(res)
-            // });
-            for (var i = 0; i < dataset.length; i++) {
-              // console.log(dataset[i]);
-              $http.post('http://localhost:10000/members/', dataset[i]).then(function(res) {
-                console.log(res)
-              });
-            }
+            $http.post('http://localhost:10000/members/', data).then(function(res) {
+              console.log(res)
+            });
+            // for (var i = 0; i < dataset.length; i++) {
+            //   // console.log(dataset[i]);
+            //   $http.post('http://localhost:10000/members/', dataset[i]).then(function(res) {
+            //     console.log(res)
+            //   });
+            // }
 
         }
         show_user()
