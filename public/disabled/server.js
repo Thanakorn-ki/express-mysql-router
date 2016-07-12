@@ -124,7 +124,7 @@ router.post('/members', cors(corsOptions), function(req, res) {
                         });
                 }).then(function(response_new) {
                     return q.promise(function(resolve, reject, notify) {
-                        conn.query('INSERT INTO detail_event values ("",?,?,"L","200",?,"register")', [response_new, "active", req.body.event_id],
+                        conn.query('INSERT INTO detail_event values ("",?,?,?,?,?,null,?)', [response_new, "active","L","200", req.body.event_id,"register"],
                             function(err, rows, fields) {
                                 if (err) {
                                     reject(err);
@@ -288,7 +288,7 @@ router.get('/group', cors(corsOptions), function(req, res) {
 ////////////////////////////////////////////////////////////
 router.get('/detail_event', cors(corsOptions), function(req, res) {
     pool.getConnection(function(err, conn) {
-        conn.query('SELECT * FROM `detail_event` as m1 JOIN member as m2 ON m1.mem_id = m2.mem_id JOIN event as m3 ON m1.event_id = m3.event_id',
+        conn.query('SELECT * FROM `detail_event`',
             function(err, rows, fields) {
                 if (err) throw (err);
                 res.send(rows)
