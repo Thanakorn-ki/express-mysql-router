@@ -255,7 +255,7 @@ router.put('/event/:id', cors(corsOptions), function(req, res) {
 ////////////////////////////////////////////////////////////
 router.get('/group/:id', cors(corsOptions), function(req, res) {
     pool.getConnection(function(err, conn) {
-        conn.query('SELECT * FROM member as m1 JOIN user_in_group as m2 ON m1.mem_id = m2.mem_id where m2.group_id=' + req.params.id + ' and m2.event_id = "1"',
+        conn.query('SELECT * FROM member as m1 JOIN user_in_group as m2 ON m1.mem_id = m2.mem_id where m2.group_id=?' ,[req.params.id],
             function(err, rows, fields) {
                 if (err) throw err;
                 res.send(rows)
@@ -288,7 +288,7 @@ router.get('/group', cors(corsOptions), function(req, res) {
 ////////////////////////////////////////////////////////////
 router.get('/detail_event', cors(corsOptions), function(req, res) {
     pool.getConnection(function(err, conn) {
-        conn.query('SELECT * FROM `detail_event` , member where detail_event.mem_id = member.mem_id',
+        conn.query('SELECT * FROM `detail_event` as m1 JOIN member as m2 ON m1.mem_id = m2.mem_id JOIN event as m3 ON m1.event_id = m3.event_id',
             function(err, rows, fields) {
                 if (err) throw (err);
                 res.send(rows)
@@ -320,4 +320,15 @@ router.post('/detail_event', function(req, res) {
     })
 });
 //////////////////////////////////});//////////////////////////
+router.get('/macth/:group_id', cors(corsOptions), function(req, res) {
+    pool.getConnection(function(err, conn) {
+        conn.query('SELECT * FROM member AS m1 JOIN user_in_group as m2 ON m1.mem_id = m2.mem_id JOIN `group` as m3 ON m2.group_id = m3.group_id WHERE m3.group_id = ?' ,[ req.params.group_id],
+            function(err, rows, fields) {
+                if (err) throw (err);
+                res.send(rows)
+                conn.release();
+            });
+    })
+});
+////////////////////////////////////////////////////////////
 module.exports = router
