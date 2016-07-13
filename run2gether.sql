@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jul 13, 2016 at 07:54 PM
+-- Generation Time: Jul 13, 2016 at 07:53 PM
 -- Server version: 10.1.13-MariaDB
 -- PHP Version: 5.6.21
 
@@ -19,8 +19,6 @@ SET time_zone = "+00:00";
 --
 -- Database: `run2gether`
 --
-CREATE DATABASE IF NOT EXISTS `run2gether` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-USE `run2gether`;
 
 DELIMITER $$
 --

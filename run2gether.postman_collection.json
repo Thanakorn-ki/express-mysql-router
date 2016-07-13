@@ -1,0 +1,371 @@
+{
+	"variables": [],
+	"info": {
+		"name": "run2gether",
+		"_postman_id": "14551160-3c0c-e1b2-0460-8125d46b36df",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "แสดงข้อมูลสำหรับคนพิการ รายบุคคลด้วย mem_id",
+			"request": {
+				"url": "{{url}}/members/disabled/1",
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "แสดงข้อมูลสำหรับคนพิการ",
+			"request": {
+				"url": "{{url}}/members/disabled",
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "แสดงข้อมูลสำหรับคนไม่พิการ รายบุคคลด้วย mem_id",
+			"request": {
+				"url": "{{url}}/members/normal",
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "แสดงข้อมูล ตาราง member",
+			"request": {
+				"url": "{{url}}/members/",
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "mem_id",
+							"value": "1",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "detail_match",
+							"value": "active",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "event_id",
+							"value": "19",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "status_pay",
+							"value": "register",
+							"type": "text",
+							"enabled": true
+						}
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "แสดงข้อมูลของตาราง member รายบุคคล",
+			"request": {
+				"url": "{{url}}/members/user/3",
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "mem_id",
+							"value": "1",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "detail_match",
+							"value": "active",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "event_id",
+							"value": "19",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "status_pay",
+							"value": "register",
+							"type": "text",
+							"enabled": true
+						}
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "ลบข้อมูลด้วย mem_id ในตาราง member",
+			"request": {
+				"url": "{{url}}/members/6",
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "name",
+						"value": "dsadas",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "mem_id",
+							"value": "1",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "detail_match",
+							"value": "active",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "event_id",
+							"value": "19",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "status_pay",
+							"value": "register",
+							"type": "text",
+							"enabled": true
+						}
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "การจับคู่",
+			"request": {
+				"url": "{{url}}/members/",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"mem_id_num\": \"1730600113916\",\n    \"mem_name\": \"xxxxxx\",\n    \"mem_surname\": \"กิจสวัสดิ์\",\n    \"mem_nickname\": \"อั้ม\",\n    \"mem_gender\": \"m\",\n    \"mem_age\": \"22\",\n    \"mem_email\": \"thanakornaum@gmail.com\",\n    \"mem_tel\": \"028110804\",\n    \"mem_date\": \"0000-00-00\",\n    \"mem_pic\": \"xxxxx\",\n    \"mem_discription\": \"\",\n    \"mem_department\": \"\",\n    \"mem_type\": \"disabled\",\n    \"mem_disabled_type\": \"blind\",\n    \"event_id\":18\n}"
+				},
+				"description": "ส่ง mem_id ของคนพิการกับไม่พิการ ( mem_id) พร้อมกับ event_id\n"
+			},
+			"response": []
+		},
+		{
+			"name": "แก้ไขข้อมูลรายบุคคลในตาราง member",
+			"request": {
+				"url": "{{url}}/members/60",
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"mem_id_num\": \"1730600113916\",\n    \"mem_name\": \"yyyyy\",\n    \"mem_surname\": \"กิจสวัสดิ์\",\n    \"mem_nickname\": \"อั้ม\",\n    \"mem_gender\": \"m\",\n    \"mem_age\": \"22\",\n    \"mem_email\": \"thanakornaum@gmail.com\",\n    \"mem_tel\": \"028110804\",\n    \"mem_date\": \"0000-00-00\",\n    \"mem_pic\": \"xxxxx\",\n    \"mem_discription\": \"\",\n    \"mem_department\": \"\",\n    \"mem_type\": \"disabled\",\n    \"mem_disabled_type\": \"blind\"\n}   "
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "แสดงข้อมูงตาราง Event",
+			"request": {
+				"url": "{{url}}/event/",
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "mem_id",
+							"value": "1",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "detail_match",
+							"value": "active",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "event_id",
+							"value": "19",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "status_pay",
+							"value": "active",
+							"type": "text",
+							"enabled": true
+						}
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "เพิ่มข้อมูลตาราง Event",
+			"request": {
+				"url": "{{url}}/event/",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"event_name\": \"วิ่งด้วยกัน ครั้้งที่ 55\",\n    \"event_date_start\": \"2016-07-10T17:00:00.000Z\",\n    \"event_date_open\": \"0000-00-00 00:00:00\",\n    \"event_date_close\": \"0000-00-00 00:00:00\",\n    \"event_location\": \"Pracha Rat Sai 1 Rd, แขวง วงศ์สว่าง เขต บางซื่อ กรุงเทพมหานคร 10800\",\n    \"event_distance\": \"3,8,10\",\n    \"event_optional\": \"\",\n    \"event_price\": \"200\",\n    \"event_size\": \"\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "แก้ไขตาราง Event",
+			"request": {
+				"url": "{{url}}/event/21",
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"event_name\": \"วิ่งด้วยกัน ครัz้งที่ 99\",\n\"event_date_start\": \"2016-07-11T17:00:00.000Z\",\n\"event_date_open\": \"2555-08-12\",\n\"event_date_close\": \"0000-00-00\",\n\"event_location\": \"Pracha Rat Sai 1 Rd, แขวง วงศ์สว่าง เขต บางซื่อ กรุงเทพมหานคร 10800\",\n\"event_distance\": \"3,8,10\",\n\"event_price\": \"200\",\n\"event_size\": \"\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "ลบข้อมูลด้วย event_id ในตาราง Event",
+			"request": {
+				"url": "{{url}}/event/51",
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"event_name\": \"วิ่งด้วยกัน ครัz้งที่ 1\",\n\"event_date_start\": \"2016-07-11T17:00:00.000Z\",\n\"event_date_open\": \"2555-08-12\",\n\"event_date_close\": \"0000-00-00\",\n\"event_location\": \"Pracha Rat Sai 1 Rd, แขวง วงศ์สว่าง เขต บางซื่อ กรุงเทพมหานคร 10800\",\n\"event_distance\": \"3,8,10\",\n\"event_price\": \"200\",\n\"event_size\": \"\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "คู่ใน แต่ละ Event ส่งค่าevent_id",
+			"request": {
+				"url": "{{url}}/group_event/19",
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "เช็คข้อมูลด้วยเบอร์โทรศัพท์ (mem_tel )",
+			"request": {
+				"url": "{{url}}/check_member/029110020",
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": "ไว้ตรวจสอบเพื่อว่าเป็นประวัติหรือยังในตาราง member"
+			},
+			"response": []
+		},
+		{
+			"name": "ดูรายชื่อในแต่ละ Event ด้วย event_id",
+			"request": {
+				"url": "{{url}}/detail_event/19",
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "ดูคนทั้งหมดที่สมัครมา",
+			"request": {
+				"url": "{{url}}/detail_event/",
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}
