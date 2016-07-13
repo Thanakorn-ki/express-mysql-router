@@ -93,7 +93,6 @@ router.get('/members', cors(corsOptions), function(req, res) {
     // ////////////////////////////////////////////////////
     // push data member and get id member and push detail_event
 router.post('/members', cors(corsOptions), function(req, res) {
-        //console.log(req.body);
         pool.getConnection(function(err, conn) {
             conn.beginTransaction(function(transactionError) {
                 q.promise(function(resolve, reject, notify) {
@@ -326,6 +325,26 @@ router.get('/macth/:group_id', cors(corsOptions), function(req, res) {
             function(err, rows, fields) {
                 if (err) throw (err);
                 res.send(rows)
+                conn.release();
+            });
+    })
+});
+////////////////////////////////////////////////////////////
+router.get('/group_event/:event_id', cors(corsOptions), function(req, res) {
+    pool.getConnection(function(err, conn) {
+        conn.query('SELECT * FROM `detail_event` as m1 JOIN member as m2 on m1.mem_id = m2.mem_id and m1.event_id = ? AND m1.group_id != \'NULL\'' ,[ req.params.event_id],
+            function(err, rows, fields) {
+                if (err) throw (err);
+                var group_id = rows.map((item)=>item.group_id).filter((elem, index, self) => index === self.indexOf(elem)).sort()
+                var detail_group = []
+                group_id.forEach((item) => {
+                  var user_list = rows.filter((user)=>user.group_id === item )
+                  detail_group.push({
+                    group_id: item,
+                    user_list: user_list
+                   })
+                })
+                res.send(detail_group)
                 conn.release();
             });
     })

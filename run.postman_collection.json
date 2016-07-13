@@ -1,0 +1,273 @@
+{
+	"variables": [],
+	"info": {
+		"name": "run",
+		"_postman_id": "14551160-3c0c-e1b2-0460-8125d46b36df",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "get member",
+			"request": {
+				"url": "{{url}}/members/",
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "mem_id",
+							"value": "1",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "detail_match",
+							"value": "active",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "event_id",
+							"value": "19",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "status_pay",
+							"value": "register",
+							"type": "text",
+							"enabled": true
+						}
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "get member by id",
+			"request": {
+				"url": "{{url}}/members/user/3",
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "mem_id",
+							"value": "1",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "detail_match",
+							"value": "active",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "event_id",
+							"value": "19",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "status_pay",
+							"value": "register",
+							"type": "text",
+							"enabled": true
+						}
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "delete member",
+			"request": {
+				"url": "{{url}}/members/6",
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "name",
+						"value": "dsadas",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "mem_id",
+							"value": "1",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "detail_match",
+							"value": "active",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "event_id",
+							"value": "19",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "status_pay",
+							"value": "register",
+							"type": "text",
+							"enabled": true
+						}
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "post member",
+			"request": {
+				"url": "{{url}}/members/",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"mem_id_num\":\"1730600113916\",\n    \"mem_name\":\"อั้ทคุง\",\n    \"mem_surname\":\"กิจสวัสดิ์\",\n    \"mem_nickname\":\"อั้มจัง\",\n    \"mem_gender\":\"m\",\n    \"mem_age\":\"22\",\n    \"mem_email\":\"potook_02@hotmail.com\",\n    \"mem_tel\":\"028110804\",\n    \"mem_date\":\"21/12/2536\",\n    \"mem_pic\":\"xxxx\",\n    \"mem_discription\":\"วิ่งเร็วมาก\",\n    \"mem_type\":\"normal\",\n    \"mem_disabled_type\":\"\",\n    \"event_id\":18\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "put member",
+			"request": {
+				"url": "{{url}}/members/2",
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"mem_id_num\": \"1730600113916\",\n\"mem_name\": \"อั้ทคุง\",\n\"mem_surname\": \"ออิ\",\n\"mem_nickname\": \"อั้มจัง\",\n\"mem_gender\": \"f\",\n\"mem_age\": \"22\",\n\"mem_email\": \"potook_02@hotmail.com\",\n\"mem_tel\": \"028110804\",\n\"mem_date\": \"0000-00-00\",\n\"mem_pic\": \"xxxx\",\n\"mem_discription\": \"วิ่งเร็วมากๆๆๆๆ\",\n\"mem_type\": \"normal\",\n\"mem_disabled_type\": \"blind\"\n}   "
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "get event",
+			"request": {
+				"url": "{{url}}/event/",
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "mem_id",
+							"value": "1",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "detail_match",
+							"value": "active",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "event_id",
+							"value": "19",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "status_pay",
+							"value": "active",
+							"type": "text",
+							"enabled": true
+						}
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "post event",
+			"request": {
+				"url": "{{url}}/event/",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"event_name\": \"วิ่งด้วยกัน ครั้้งที่ 2\",\n\"event_date_start\": \"2016-07-11T17:00:00.000Z\",\n\"event_date_open\": \"0000-00-00\",\n\"event_date_close\": \"0000-00-00\",\n\"event_location\": \"Pracha Rat Sai 1 Rd, แขวง วงศ์สว่าง เขต บางซื่อ กรุงเทพมหานคร 10800\",\n\"event_distance\": \"3,8,10\",\n\"event_price\": \"200\",\n\"event_size\": \"\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "put event",
+			"request": {
+				"url": "{{url}}/event/19",
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"event_name\": \"วิ่งด้วยกัน ครัz้งที่ 1\",\n\"event_date_start\": \"2016-07-11T17:00:00.000Z\",\n\"event_date_open\": \"2555-08-12\",\n\"event_date_close\": \"0000-00-00\",\n\"event_location\": \"Pracha Rat Sai 1 Rd, แขวง วงศ์สว่าง เขต บางซื่อ กรุงเทพมหานคร 10800\",\n\"event_distance\": \"3,8,10\",\n\"event_price\": \"200\",\n\"event_size\": \"\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "delete event",
+			"request": {
+				"url": "{{url}}/event/21",
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"event_name\": \"วิ่งด้วยกัน ครัz้งที่ 1\",\n\"event_date_start\": \"2016-07-11T17:00:00.000Z\",\n\"event_date_open\": \"2555-08-12\",\n\"event_date_close\": \"0000-00-00\",\n\"event_location\": \"Pracha Rat Sai 1 Rd, แขวง วงศ์สว่าง เขต บางซื่อ กรุงเทพมหานคร 10800\",\n\"event_distance\": \"3,8,10\",\n\"event_price\": \"200\",\n\"event_size\": \"\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}
