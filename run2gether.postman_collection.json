@@ -10,7 +10,7 @@
 		{
 			"name": "แสดงข้อมูลสำหรับคนพิการ รายบุคคลด้วย mem_id",
 			"request": {
-				"url": "{{url}}/members/disabled/1",
+				"url": "{{url}}/members/disabled/113",
 				"method": "GET",
 				"header": [],
 				"body": {
@@ -38,7 +38,7 @@
 		{
 			"name": "แสดงข้อมูลสำหรับคนไม่พิการ รายบุคคลด้วย mem_id",
 			"request": {
-				"url": "{{url}}/members/normal",
+				"url": "{{url}}/members/normal/3",
 				"method": "GET",
 				"header": [],
 				"body": {
@@ -130,7 +130,7 @@
 		{
 			"name": "ลบข้อมูลด้วย mem_id ในตาราง member",
 			"request": {
-				"url": "{{url}}/members/6",
+				"url": "{{url}}/members/119",
 				"method": "DELETE",
 				"header": [
 					{
@@ -173,7 +173,7 @@
 			"response": []
 		},
 		{
-			"name": "การจับคู่",
+			"name": "การสมัครลง event ส่ง ค่าตาราง member ทั้งหมด พร้อม event_id",
 			"request": {
 				"url": "{{url}}/members/",
 				"method": "POST",
@@ -186,9 +186,9 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"mem_id_num\": \"1730600113916\",\n    \"mem_name\": \"xxxxxx\",\n    \"mem_surname\": \"กิจสวัสดิ์\",\n    \"mem_nickname\": \"อั้ม\",\n    \"mem_gender\": \"m\",\n    \"mem_age\": \"22\",\n    \"mem_email\": \"thanakornaum@gmail.com\",\n    \"mem_tel\": \"028110804\",\n    \"mem_date\": \"0000-00-00\",\n    \"mem_pic\": \"xxxxx\",\n    \"mem_discription\": \"\",\n    \"mem_department\": \"\",\n    \"mem_type\": \"disabled\",\n    \"mem_disabled_type\": \"blind\",\n    \"event_id\":18\n}"
+					"raw": "{\n    \"mem_id_num\": \"1730600113916\",\n    \"mem_name\": \"xxxxxx\",\n    \"mem_surname\": \"กิจสวัสดิ์\",\n    \"mem_nickname\": \"อั้ม\",\n    \"mem_gender\": \"m\",\n    \"mem_age\": \"22\",\n    \"mem_email\": \"thanakornaum@gmail.com\",\n    \"mem_tel\": \"028110804\",\n    \"mem_date\": \"0000-00-00\",\n    \"mem_pic\": \"xxxxx\",\n    \"mem_discription\": \"\",\n    \"mem_department\": \"\",\n    \"mem_type\": \"disabled\",\n    \"mem_disabled_type\": \"blind\",\n    \"event_id\":19\n}"
 				},
-				"description": "ส่ง mem_id ของคนพิการกับไม่พิการ ( mem_id) พร้อมกับ event_id\n"
+				"description": ""
 			},
 			"response": []
 		},
@@ -362,6 +362,26 @@
 				"body": {
 					"mode": "formdata",
 					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "จับคู่",
+			"request": {
+				"url": "{{url}}/match/",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"mem_id\": [101,100,99,234],\n    \"event_id\": 19\n}"
 				},
 				"description": ""
 			},

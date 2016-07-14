@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jul 13, 2016 at 07:53 PM
+-- Generation Time: Jul 14, 2016 at 01:09 PM
 -- Server version: 10.1.13-MariaDB
 -- PHP Version: 5.6.21
 
@@ -19,6 +19,8 @@ SET time_zone = "+00:00";
 --
 -- Database: `run2gether`
 --
+CREATE DATABASE IF NOT EXISTS `run2gether` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+USE `run2gether`;
 
 DELIMITER $$
 --
@@ -63,7 +65,11 @@ INSERT INTO `detail_event` (`detail_id`, `mem_id`, `detail_match`, `detail_size`
 (97, 116, 'active', 'L', '200', 19, 2, 'register'),
 (98, 117, 'active', 'L', '200', 19, 3, 'register'),
 (99, 118, 'active', 'L', '200', 19, 3, 'register'),
-(100, 119, 'active', 'L', '200', 18, NULL, 'register');
+(100, 119, 'active', 'L', '200', 18, NULL, 'register'),
+(101, 120, 'active', 'L', '200', 18, NULL, 'register'),
+(102, 121, 'active', 'L', '200', 18, NULL, 'register'),
+(103, 122, 'active', 'L', '200', 18, NULL, 'register'),
+(104, 123, 'active', 'L', '200', 19, NULL, 'register');
 
 -- --------------------------------------------------------
 
@@ -91,7 +97,8 @@ CREATE TABLE `event` (
 INSERT INTO `event` (`event_id`, `event_name`, `event_date_start`, `event_date_open`, `event_date_close`, `event_location`, `event_distance`, `event_optional`, `event_price`, `event_size`) VALUES
 (19, 'วิ่งด้วยกัน ครั้้งที่ 2', '2016-07-11 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'Pracha Rat Sai 1 Rd, แขวง วงศ์สว่าง เขต บางซื่อ กรุงเทพมหานคร 10800', '3,8,10', '', '200', ''),
 (20, 'วิ่งด้วยกัน ครั้้งที่ 55', '2016-07-10 17:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'Pracha Rat Sai 1 Rd, แขวง วงศ์สว่าง เขต บางซื่อ กรุงเทพมหานคร 10800', '3,8,10', '', '200,500,600', ''),
-(21, 'วิ่งด้วยกัน ครัz้งที่ 99', '2016-07-11 17:00:00', '2555-08-12 00:00:00', '0000-00-00 00:00:00', 'Pracha Rat Sai 1 Rd, แขวง วงศ์สว่าง เขต บางซื่อ กรุงเทพมหานคร 10800', '3,8,10', '', '200', '');
+(21, 'วิ่งด้วยกัน ครัz้งที่ 99', '2016-07-11 17:00:00', '2555-08-12 00:00:00', '0000-00-00 00:00:00', 'Pracha Rat Sai 1 Rd, แขวง วงศ์สว่าง เขต บางซื่อ กรุงเทพมหานคร 10800', '3,8,10', '', '200', ''),
+(22, 'วิ่งด้วยกัน ครั้้งที่ 55', '2016-07-10 17:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'Pracha Rat Sai 1 Rd, แขวง วงศ์สว่าง เขต บางซื่อ กรุงเทพมหานคร 10800', '3,8,10', '', '200', '');
 
 -- --------------------------------------------------------
 
@@ -111,7 +118,12 @@ CREATE TABLE `group` (
 INSERT INTO `group` (`group_id`, `event_id`) VALUES
 (1, 19),
 (2, 19),
-(3, 19);
+(3, 19),
+(23, 19),
+(24, 19),
+(25, 19),
+(26, 19),
+(27, 19);
 
 -- --------------------------------------------------------
 
@@ -148,7 +160,10 @@ INSERT INTO `member` (`mem_id`, `mem_id_num`, `mem_name`, `mem_surname`, `mem_ni
 (116, '1730600113916', 'ขวัญฤดี', 'ปานีสงค์', 'ดม', 'm', '12', 'test-slam@hotmail.com', '029110020', '2016-06-05', 'xxxx', 'อยากวิ่งเล่น', '', 'normal', ''),
 (117, '1730600113916', 'กัญญุตา', 'มาก', 'ดม', 'm', '21', 'infernal-slam@hotmail.com', '029110020', '2016-06-05', 'xxxx', 'so good', '', 'normal', ''),
 (118, '1730600113916', 'อดุล', 'กาสาวพัทธ์', 'ดม', 'm', '24', 'test-slam@hotmail.com', '029110020', '2016-06-05', 'xxxx', 'อยากวิ่งเล่น', '', 'normal', ''),
-(119, '1730600113916', 'xxxxxx', 'กิจสวัสดิ์', 'อั้ม', 'm', '22', 'thanakornaum@gmail.com', '028110804', '0000-00-00', 'xxxxx', '', '', 'disabled', 'blind');
+(120, '1730600113916', 'xxxxxx', 'กิจสวัสดิ์', 'อั้ม', 'm', '22', 'thanakornaum@gmail.com', '028110804', '0000-00-00', 'xxxxx', '', '', 'disabled', 'blind'),
+(121, '1730600113916', 'xxxxxx', 'กิจสวัสดิ์', 'อั้ม', 'm', '22', 'thanakornaum@gmail.com', '028110804', '0000-00-00', 'xxxxx', '', '', 'disabled', 'blind'),
+(122, '1730600113916', 'xxxxxx', 'กิจสวัสดิ์', 'อั้ม', 'm', '22', 'thanakornaum@gmail.com', '028110804', '0000-00-00', 'xxxxx', '', '', 'disabled', 'blind'),
+(123, '1730600113916', 'xxxxxx', 'กิจสวัสดิ์', 'อั้ม', 'm', '22', 'thanakornaum@gmail.com', '028110804', '0000-00-00', 'xxxxx', '', '', 'disabled', 'blind');
 
 -- --------------------------------------------------------
 
@@ -170,7 +185,23 @@ INSERT INTO `user_in_group` (`user_group_id`, `mem_id`, `group_id`) VALUES
 (1, 55, 1),
 (2, 56, 1),
 (3, 1, 2),
-(4, 2, 2);
+(4, 2, 2),
+(12, 101, 23),
+(13, 100, 23),
+(14, 101, 24),
+(15, 100, 24),
+(16, 101, 25),
+(17, 100, 25),
+(18, 99, 25),
+(19, 234, 25),
+(20, 101, 26),
+(21, 100, 26),
+(22, 99, 26),
+(23, 234, 26),
+(24, 101, 27),
+(25, 100, 27),
+(26, 99, 27),
+(27, 234, 27);
 
 --
 -- Indexes for dumped tables
@@ -214,27 +245,27 @@ ALTER TABLE `user_in_group`
 -- AUTO_INCREMENT for table `detail_event`
 --
 ALTER TABLE `detail_event`
-  MODIFY `detail_id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=101;
+  MODIFY `detail_id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=105;
 --
 -- AUTO_INCREMENT for table `event`
 --
 ALTER TABLE `event`
-  MODIFY `event_id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `event_id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 --
 -- AUTO_INCREMENT for table `group`
 --
 ALTER TABLE `group`
-  MODIFY `group_id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `group_id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 --
 -- AUTO_INCREMENT for table `member`
 --
 ALTER TABLE `member`
-  MODIFY `mem_id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=120;
+  MODIFY `mem_id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=124;
 --
 -- AUTO_INCREMENT for table `user_in_group`
 --
 ALTER TABLE `user_in_group`
-  MODIFY `user_group_id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `user_group_id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
