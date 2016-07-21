@@ -110,13 +110,15 @@ router.get('/members', cors(corsOptions), (req, res) => {
 // ////////////////////////////////////////////////////
 // push data member and get id member and push detail_event
 router.post('/members', cors(corsOptions), (req, res) => {
+  console.log(req.body);
         pool.getConnection((err, conn) => {
             conn.beginTransaction((transactionError) => {
                 q.promise((resolve, reject, notify) => {
                     if (transactionError) {
                         reject(transactionError)
                     }
-                    conn.query('insert into member values ("",?,?,?,?,?,?,?,?,?,?,?,?,?,?)', [req.body.mem_id_num,
+                    conn.query('insert into member values ("",?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
+                    [       req.body.mem_id_num,
                             req.body.mem_name,
                             req.body.mem_surname,
                             req.body.mem_nickname,
@@ -126,6 +128,7 @@ router.post('/members', cors(corsOptions), (req, res) => {
                             req.body.mem_tel,
                             req.body.mem_date,
                             req.body.mem_pic,
+                            req.body.mem_location,
                             req.body.mem_discription,
                             req.body.mem_department,
                             req.body.mem_type,
@@ -135,11 +138,13 @@ router.post('/members', cors(corsOptions), (req, res) => {
                             if (err) {
                                 reject(err)
                             }
+                            console.log(rows.insertId);
                             resolve(rows.insertId)
                         })
-                }).then((response_new) => {
+                }).then((mem_id) => {
                     return q.promise((resolve, reject, notify) => {
-                        conn.query('INSERT INTO detail_event values ("",?,?,?,?,?,null,?)', [response_new, "active", "L", "200", req.body.event_id, "register"],
+                        conn.query('INSERT INTO detail_event values ("",?,?,?,?,?,null,?)',
+                        [mem_id, "unactive", req.body.detail_size, req.body.detail_price, req.body.event_id, "register"],
                             (err, rows, fields) => {
                                 if (err) {
                                     reject(err)
@@ -156,7 +161,7 @@ router.post('/members', cors(corsOptions), (req, res) => {
                     })
                     conn.release()
                 }).catch((error) => {
-                    // console.log(error)
+                    console.log(error)
                     conn.rollback((error) => {
                         console.log(error)
                     })
@@ -181,13 +186,13 @@ router.delete('/members/:id', cors(corsOptions), (req, res) => {
         })
     })
     // ////////////////////////////////////////////////////
-    // update member by id
+    // update member by mem_id
 router.put('/members/:mem_id', cors(corsOptions), (req, res) => {
         pool.getConnection((err, conn) => {
-            conn.query('UPDATE member set mem_id_num = ?' +
-                ', mem_name = ?, mem_surname = ?, mem_nickname = ?,' +
+            conn.query('UPDATE member set mem_id_num = ?, ' +
+                ' mem_name = ?, mem_surname = ?, mem_nickname = ?,' +
                 ' mem_gender = ?, mem_age = ?, mem_email = ?, mem_tel = ?,' +
-                ' mem_date = ?, mem_pic = ?, mem_discription = ?,' +
+                ' mem_date = ?, mem_pic = ?,mem_location = ?, mem_discription = ?,' +
                 ' mem_department = ? ,mem_type = ?, mem_disabled_type = ? where mem_id = ?', [req.body.mem_id_num,
                     req.body.mem_name,
                     req.body.mem_surname,
@@ -198,6 +203,7 @@ router.put('/members/:mem_id', cors(corsOptions), (req, res) => {
                     req.body.mem_tel,
                     req.body.mem_date,
                     req.body.mem_pic,
+                    req.body.mem_location,
                     req.body.mem_discription,
                     req.body.mem_department,
                     req.body.mem_type,
@@ -206,7 +212,7 @@ router.put('/members/:mem_id', cors(corsOptions), (req, res) => {
                 ],
                 (err, rows, fields) => {
                     if (err) throw err
-                    res.send("Update member id = " + req.params.id)
+                    res.send("Update member id = " + req.params.mem_id)
                     conn.release()
                 })
         })
@@ -393,28 +399,97 @@ router.get('/check_member/:mem_tel', cors(corsOptions), (req, res) => {
             })
     })
 })
+// //////////////////////////////////////////////////////////////////
+// จับคู่แบบ admin จับให้
 router.post('/match', cors(corsOptions), (req, res) => {
+        pool.getConnection((err, conn) => {
+            conn.beginTransaction((transactionError) => {
+                q.promise((resolve, reject, notify) => {
+                    if (transactionError) {
+                        reject(transactionError)
+                    }
+                    var check_unique
+                    req.body.mem_id.forEach((item) => {
+                    conn.query("SELECT * FROM `user_in_group` WHERE mem_id = ?", [item], (err, rows, fields) => {
+                        if (err) reject(err)
+                        console.log(rows);
+                        if (!!rows) {
+                          console.log('t');
+                          check_unique++
+                        }else{
+                          console.log('f');
+                        }
+                    })
+                  })
+                  console.log(check_unique);
+                }).then((response) => {
+                  return q.promise((resolve, reject, motify) => {
+                    conn.query('INSERT INTO `group` values(?,?)', ["", req.body.event_id], (err, rows, fields) => {
+                        if (err) reject(err)
+                        resolve(rows.insertId)
+                    })
+                  })
+                }).then((response) => {
+                    return q.promise((resolve, reject, notify) => {
+                        req.body.mem_id.forEach((item) => {
+                            conn.query('INSERT INTO `user_in_group` values(?,?,?,?)', ["", item, response, "active"], (err, rows, fields) => {
+                                if (err) reject(err)
+                            })
+                        })
+                        resolve('success match')
+                    })
+                }).then((responese) => {
+                    return q.promise((resolve, reject, notify) => {
+                        req.body.mem_id.forEach((item) => {
+                            conn.query('UPDATE `detail_event` set detail_match = ? where mem_id = ? and event_id = ?', ["active", item, req.body.event_id], (err, rows, fields) => {
+                                if (err) reject(err)
+                            })
+                        })
+                        resolve('success match')
+                    })
+                }).then(() => {
+                    res.send('match success')
+                    conn.commit((err) => {
+                        if (err) {
+                            reject(err)
+                        }
+                    })
+                    conn.release()
+                }).catch((err) => {
+                    console.log(err);
+                    conn.rollback((err) => {
+                        console.log(err)
+                    })
+                    conn.release()
+                })
+            })
+        })
+    })
+    // ////////////////////////////////////////////////////////////////////////
+    // แก้ไขการจับคู่
+router.put('/match/', cors(corsOptions), (req, res) => {
     pool.getConnection((err, conn) => {
         conn.beginTransaction((transactionError) => {
             q.promise((resolve, reject, notify) => {
                 if (transactionError) {
                     reject(transactionError)
                 }
-                conn.query('INSERT INTO `group` values(?,?)', ["", req.body.event_id], (err, rows, fields) => {
-                    if (err) reject(err)
-                    resolve(rows.insertId)
-                })
+                conn.query('UPDATE `user_in_group` set status_match = ? where mem_id = ? and group_id = ?', ["uactive", req.body.mem_id, req.body.group_id],
+                    (err, rows, fields) => {
+                        console.log(req.body);
+                        if (err) reject(err)
+                        resolve(rows)
+                        console.log(rows);
+                    })
             }).then((response) => {
                 return q.promise((resolve, reject, notify) => {
-                    req.body.mem_id.forEach((item) => {
-                        conn.query('INSERT INTO `user_in_group` values(?,?,?)', ["", item, response], (err, rows, fields) => {
-                            if (err) reject(err)
-                        })
+                    conn.query('UPDATE `detail_event` set group_id = ? where mem_id = ? and event_id = ? ', [null, req.body.mem_id, req.body.event_id], (err, rows, fields) => {
+                        if (err) reject(err)
+                        resolve('ok')
                     })
-                    resolve('ok')
                 })
             }).then(() => {
-                res.send('match success')
+                res.send('Update match success')
                 conn.commit((err) => {
                     if (err) {
                         reject(err)
@@ -430,29 +505,31 @@ router.post('/match', cors(corsOptions), (req, res) => {
         })
     })
 })
-// ////////////////////////////////////////////////////////////////////////
-router.put('/match', cors(corsOptions), (req, res) => {
+// ///////////////////////////////////////////////////////////////////
+// การจับคู่แบบ ผู้สมัครมีคู่มากด้วย
+router.post('/match/with', cors(corsOptions), (req, res) => {
     pool.getConnection((err, conn) => {
         conn.beginTransaction((transactionError) => {
             q.promise((resolve, reject, notify) => {
                 if (transactionError) {
                     reject(transactionError)
                 }
-                conn.query('INSERT INTO `group` values(?,?)', ["", req.body.event_id], (err, rows, fields) => {
-                    if (err) reject(err)
-                    resolve(rows.insertId)
-                })
+                conn.query('UPDATE `user_in_group` set status_match = ? where mem_id = ? and group_id = ?', ["unactive", req.body.mem_id, req.body.group_id],
+                    (err, rows, fields) => {
+                        console.log(req.body);
+                        if (err) reject(err)
+                        resolve(rows)
+                        console.log(rows);
+                    })
             }).then((response) => {
                 return q.promise((resolve, reject, notify) => {
-                    req.body.mem_id.forEach((item) => {
-                        conn.query('INSERT INTO `user_in_group` values(?,?,?)', ["", item, response], (err, rows, fields) => {
-                            if (err) reject(err)
-                        })
+                    conn.query('UPDATE `detail_event` set group_id = ? where mem_id = ? and event_id = ? ', [null, req.body.mem_id, req.body.event_id], (err, rows, fields) => {
+                        if (err) reject(err)
+                        resolve('ok')
                     })
-                    resolve('ok')
                 })
             }).then(() => {
-                res.send('match success')
+                res.send('Update match success')
                 conn.commit((err) => {
                     if (err) {
                         reject(err)
