@@ -402,33 +402,19 @@ router.get('/check_member/:mem_tel', cors(corsOptions), (req, res) => {
 // //////////////////////////////////////////////////////////////////
 // จับคู่แบบ admin จับให้
 router.post('/match', cors(corsOptions), (req, res) => {
+  console.log(req.body.event_id);
         pool.getConnection((err, conn) => {
             conn.beginTransaction((transactionError) => {
                 q.promise((resolve, reject, notify) => {
                     if (transactionError) {
                         reject(transactionError)
                     }
-                    var check_unique
-                    req.body.mem_id.forEach((item) => {
-                    conn.query("SELECT * FROM `user_in_group` WHERE mem_id = ?", [item], (err, rows, fields) => {
+                      conn.query('INSERT INTO `group` values(?,?)', ["NULL", req.body.event_id], (err, rows, fields) => {
                         if (err) reject(err)
                         console.log(rows);
-                        if (!!rows) {
-                          console.log('t');
-                          check_unique++
-                        }else{
-                          console.log('f');
-                        }
-                    })
-                  })
-                  console.log(check_unique);
-                }).then((response) => {
-                  return q.promise((resolve, reject, motify) => {
-                    conn.query('INSERT INTO `group` values(?,?)', ["", req.body.event_id], (err, rows, fields) => {
-                        if (err) reject(err)
                         resolve(rows.insertId)
                     })
-                  })
+
                 }).then((response) => {
                     return q.promise((resolve, reject, notify) => {
                         req.body.mem_id.forEach((item) => {

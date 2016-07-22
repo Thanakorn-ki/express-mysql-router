@@ -186,7 +186,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"mem_id_num\": \"1730600113916\",\n    \"mem_name\": \"xxxxxx\",\n    \"mem_surname\": \"กิจสวัสดิ์\",\n    \"mem_nickname\": \"อั้ม\",\n    \"mem_gender\": \"m\",\n    \"mem_age\": \"22\",\n    \"mem_email\": \"thanakornaum@gmail.com\",\n    \"mem_tel\": \"028110804\",\n    \"mem_date\": \"0000-00-00\",\n    \"mem_pic\": \"xxxxx\",\n    \"mem_discription\": \"\",\n    \"mem_department\": \"\",\n    \"mem_type\": \"disabled\",\n    \"mem_disabled_type\": \"blind\",\n    \"event_id\":19\n}"
+					"raw": "{\n    \"mem_id_num\": \"1234567890123\",\n    \"mem_name\": \"xxxxxx\",\n    \"mem_surname\": \"กิจสวัสดิ์\",\n    \"mem_nickname\": \"อั้ม\",\n    \"mem_gender\": \"m\",\n    \"mem_age\": \"22\",\n    \"mem_email\": \"thanakornaum@gmail.com\",\n    \"mem_tel\": \"028110804\",\n    \"mem_date\": \"0000-00-00\",\n    \"mem_pic\": \"xxxxx\",\n    \"mem_location\":\"60/5\",\n    \"mem_discription\": \"\",\n    \"mem_department\": \"\",\n    \"mem_type\": \"disabled\",\n    \"mem_disabled_type\": \"blind\",\n    \"event_id\":19,\n    \"detail_size\":\"L\",\n    \"detail_price\":\"200\"\n}"
 				},
 				"description": ""
 			},
@@ -195,7 +195,7 @@
 		{
 			"name": "แก้ไขข้อมูลรายบุคคลในตาราง member",
 			"request": {
-				"url": "{{url}}/members/60",
+				"url": "{{url}}/members/123",
 				"method": "PUT",
 				"header": [
 					{
@@ -206,7 +206,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"mem_id_num\": \"1730600113916\",\n    \"mem_name\": \"yyyyy\",\n    \"mem_surname\": \"กิจสวัสดิ์\",\n    \"mem_nickname\": \"อั้ม\",\n    \"mem_gender\": \"m\",\n    \"mem_age\": \"22\",\n    \"mem_email\": \"thanakornaum@gmail.com\",\n    \"mem_tel\": \"028110804\",\n    \"mem_date\": \"0000-00-00\",\n    \"mem_pic\": \"xxxxx\",\n    \"mem_discription\": \"\",\n    \"mem_department\": \"\",\n    \"mem_type\": \"disabled\",\n    \"mem_disabled_type\": \"blind\"\n}   "
+					"raw": "{\n    \"mem_id_num\": \"1730600113916\",\n    \"mem_name\": \"yyyyy\",\n    \"mem_surname\": \"กิจสวัสดิ์\",\n    \"mem_nickname\": \"อั้ม\",\n    \"mem_gender\": \"m\",\n    \"mem_age\": \"22\",\n    \"mem_email\": \"thanakornaum@gmail.com\",\n    \"mem_tel\": \"028110804\",\n    \"mem_date\": \"0000-00-00\",\n    \"mem_pic\": \"xxxxx\",\n    \"mem_location\":\"090/14\",\n    \"mem_discription\": \"\",\n    \"mem_department\": \"\",\n    \"mem_type\": \"disabled\",\n    \"mem_disabled_type\": \"blind\"\n}   "
 				},
 				"description": ""
 			},
@@ -381,7 +381,41 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"mem_id\": [101,100,99,234],\n    \"event_id\": 19\n}"
+					"raw": "{\n    \"mem_id\": [99,000],\n    \"event_id\": 19\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "แก้ไขการจับคู่",
+			"request": {
+				"url": "{{url}}/match/",
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"group_id\": 1,\n    \"mem_id\":55,\n    \"event_id\": 19\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "ดูคนทั้งหมดที่สมัครมา แต่ละ Event",
+			"request": {
+				"url": "{{url}}/detail_event/19",
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
 				},
 				"description": ""
 			},
