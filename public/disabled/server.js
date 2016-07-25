@@ -402,7 +402,7 @@ router.get('/check_member/:mem_tel', cors(corsOptions), (req, res) => {
 // //////////////////////////////////////////////////////////////////
 // จับคู่แบบ admin จับให้
 router.post('/match', cors(corsOptions), (req, res) => {
-  console.log(req.body.event_id);
+  // console.log(req.body.event_id);
         pool.getConnection((err, conn) => {
             conn.beginTransaction((transactionError) => {
                 q.promise((resolve, reject, notify) => {
@@ -411,7 +411,7 @@ router.post('/match', cors(corsOptions), (req, res) => {
                     }
                       conn.query('INSERT INTO `group` values(?,?)', ["NULL", req.body.event_id], (err, rows, fields) => {
                         if (err) reject(err)
-                        console.log(rows);
+                        // console.log(rows);
                         resolve(rows.insertId)
                     })
 
@@ -422,16 +422,19 @@ router.post('/match', cors(corsOptions), (req, res) => {
                                 if (err) reject(err)
                             })
                         })
-                        resolve('success match')
+                        // var goup_id = response
+                        console.log(response);
+                        resolve(response)
                     })
                 }).then((responese) => {
                     return q.promise((resolve, reject, notify) => {
                         req.body.mem_id.forEach((item) => {
-                            conn.query('UPDATE `detail_event` set detail_match = ? where mem_id = ? and event_id = ?', ["active", item, req.body.event_id], (err, rows, fields) => {
+                            conn.query('UPDATE `detail_event` set detail_match = ?, group_id = ? where mem_id = ? and event_id = ?', ["active", responese,item, req.body.event_id], (err, rows, fields) => {
                                 if (err) reject(err)
                             })
                         })
-                        resolve('success match')
+                        console.log(rows);
+                        resolve('rows')
                     })
                 }).then(() => {
                     res.send('match success')
