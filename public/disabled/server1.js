@@ -110,14 +110,15 @@ router.get('/members', cors(corsOptions), (req, res) => {
 // ////////////////////////////////////////////////////
 // push data member and get id member and push detail_event
 router.post('/members', cors(corsOptions), (req, res) => {
-        console.log(req.body);
+  console.log(req.body);
         pool.getConnection((err, conn) => {
             conn.beginTransaction((transactionError) => {
                 q.promise((resolve, reject, notify) => {
                     if (transactionError) {
                         reject(transactionError)
                     }
-                    conn.query('insert into member values ("",?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)', [req.body.mem_id_num,
+                    conn.query('insert into member values ("",?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
+                    [       req.body.mem_id_num,
                             req.body.mem_name,
                             req.body.mem_surname,
                             req.body.mem_nickname,
@@ -142,7 +143,8 @@ router.post('/members', cors(corsOptions), (req, res) => {
                         })
                 }).then((mem_id) => {
                     return q.promise((resolve, reject, notify) => {
-                        conn.query('INSERT INTO detail_event values ("",?,?,?,?,?,null,?,?)', [mem_id, "unactive", req.body.detail_size, req.body.detail_price, req.body.event_id, "register", ""],
+                        conn.query('INSERT INTO detail_event values ("",?,?,?,?,?,null,?)',
+                        [mem_id, "unactive", req.body.detail_size, req.body.detail_price, req.body.event_id, "register"],
                             (err, rows, fields) => {
                                 if (err) {
                                     reject(err)
@@ -159,10 +161,8 @@ router.post('/members', cors(corsOptions), (req, res) => {
                     })
                     conn.release()
                 }).catch((error) => {
-                    console.log(error.Error)
-                    res.send(error)
+                    console.log(error)
                     conn.rollback((error) => {
-                        // res.send(error)
                         console.log(error)
                     })
                     conn.release()
@@ -177,13 +177,10 @@ router.delete('/members/:id', cors(corsOptions), (req, res) => {
             conn.query('DELETE from member where mem_id = ? ', [req.params.id],
                 (err, rows, fields) => {
                     if (err) throw err
-                    if (rows.affectedRows == 0) {
-                        res.send("Invalid mem_id")
-                    } else {
-                        res.json({
-                            message: 'delete success'
-                        })
-                    }
+                        // if (rows.) {
+                        //
+                        // }
+                    res.send("deletes member id = " + req.params.id)
                     conn.release()
                 })
         })
@@ -215,15 +212,7 @@ router.put('/members/:mem_id', cors(corsOptions), (req, res) => {
                 ],
                 (err, rows, fields) => {
                     if (err) throw err
-                    if (rows.affectedRows == 0) {
-                        res.send("Invalid mem_id")
-                    } else {
-                        res.json({
-                            message: 'update success'
-                        })
-                    }
-
-
+                    res.send("Update member id = " + req.params.mem_id)
                     conn.release()
                 })
         })
@@ -271,13 +260,7 @@ router.post('/event', cors(corsOptions), (req, res) => {
                 ],
                 (err, rows, fields) => {
                     if (err) throw err
-
-                    if (rows.affectedRows === 1) {
-                        res.json({
-                            message: 'Insert Event success'
-                        })
-                    }
-
+                    res.send('insert event success')
                     conn.release()
                 })
         })
@@ -291,11 +274,9 @@ router.delete('/event/:event_id', cors(corsOptions), (req, res) => {
                     if (err) throw err
                     console.log(rows)
                     if (rows.affectedRows !== 0) {
-                        res.json({
-                            message: 'Delete event success'
-                        })
+                        res.send('delete event event_id = ' + rows)
                     } else {
-                        res.send('Invalid id')
+                        res.send('Invalid id ')
                     }
 
                     conn.release()
@@ -323,13 +304,7 @@ router.put('/event/:id', cors(corsOptions), (req, res) => {
                 ],
                 (err, rows, fields) => {
                     if (err) throw err
-                    if (rows.affectedRows !== 0) {
-                        res.json({
-                            message: 'update event success'
-                        })
-                    } else {
-                        res.send('Invalid id')
-                    }
+                    res.send('updete event event_id = ' + req.params.id)
                     conn.release()
                 })
         })
@@ -415,26 +390,26 @@ router.get('/group_event/:event_id', cors(corsOptions), (req, res) => {
     ////////////////////////////////////////////////////////////
     // เช็คข้อมูลด้วยเบอร์โทรศัพท์ (mem_tel )
 router.get('/check_member/:mem_tel', cors(corsOptions), (req, res) => {
-        pool.getConnection((err, conn) => {
-            conn.query('SELECT * FROM member WHERE mem_tel = ?', [req.params.mem_tel],
-                (err, rows, fields) => {
-                    if (err) throw (err)
-                    res.send(rows)
-                    conn.release()
-                })
-        })
+    pool.getConnection((err, conn) => {
+        conn.query('SELECT * FROM member WHERE mem_tel = ?', [req.params.mem_tel],
+            (err, rows, fields) => {
+                if (err) throw (err)
+                res.send(rows)
+                conn.release()
+            })
     })
-    // //////////////////////////////////////////////////////////////////
-    // จับคู่แบบ admin จับให้
+})
+// //////////////////////////////////////////////////////////////////
+// จับคู่แบบ admin จับให้
 router.post('/match', cors(corsOptions), (req, res) => {
-        // console.log(req.body.event_id);
+  // console.log(req.body.event_id);
         pool.getConnection((err, conn) => {
             conn.beginTransaction((transactionError) => {
                 q.promise((resolve, reject, notify) => {
                     if (transactionError) {
                         reject(transactionError)
                     }
-                    conn.query('INSERT INTO `group` values(?,?)', ["NULL", req.body.event_id], (err, rows, fields) => {
+                      conn.query('INSERT INTO `group` values(?,?)', ["NULL", req.body.event_id], (err, rows, fields) => {
                         if (err) reject(err)
                         // console.log(rows);
                         resolve(rows.insertId)
@@ -447,17 +422,18 @@ router.post('/match', cors(corsOptions), (req, res) => {
                                 if (err) reject(err)
                             })
                         })
+                        // var goup_id = response
                         console.log(response);
                         resolve(response)
                     })
                 }).then((responese) => {
                     return q.promise((resolve, reject, notify) => {
                         req.body.mem_id.forEach((item) => {
-                            conn.query('UPDATE `detail_event` set detail_match = ?, group_id = ? where mem_id = ? and event_id = ?', ["active", responese, item, req.body.event_id], (err, rows, fields) => {
+                            conn.query('UPDATE `detail_event` set detail_match = ?, group_id = ? where mem_id = ? and event_id = ?', ["active", responese,item, req.body.event_id], (err, rows, fields) => {
                                 if (err) reject(err)
                             })
                         })
-                        // console.log(rows);
+                        console.log(rows);
                         resolve('rows')
                     })
                 }).then(() => {
@@ -481,45 +457,45 @@ router.post('/match', cors(corsOptions), (req, res) => {
     // ////////////////////////////////////////////////////////////////////////
     // แก้ไขการจับคู่
 router.put('/match/', cors(corsOptions), (req, res) => {
-        pool.getConnection((err, conn) => {
-            conn.beginTransaction((transactionError) => {
-                q.promise((resolve, reject, notify) => {
-                    if (transactionError) {
-                        reject(transactionError)
-                    }
-                    conn.query('UPDATE `user_in_group` set status_match = ? where mem_id = ? and group_id = ?', ["uactive", req.body.mem_id, req.body.group_id],
-                        (err, rows, fields) => {
-                            console.log(req.body);
-                            if (err) reject(err)
-                            resolve(rows)
-                            console.log(rows);
-                        })
-                }).then((response) => {
-                    return q.promise((resolve, reject, notify) => {
-                        conn.query('UPDATE `detail_event` set group_id = ? where mem_id = ? and event_id = ? ', [null, req.body.mem_id, req.body.event_id], (err, rows, fields) => {
-                            if (err) reject(err)
-                            resolve('ok')
-                        })
+    pool.getConnection((err, conn) => {
+        conn.beginTransaction((transactionError) => {
+            q.promise((resolve, reject, notify) => {
+                if (transactionError) {
+                    reject(transactionError)
+                }
+                conn.query('UPDATE `user_in_group` set status_match = ? where mem_id = ? and group_id = ?', ["uactive", req.body.mem_id, req.body.group_id],
+                    (err, rows, fields) => {
+                        console.log(req.body);
+                        if (err) reject(err)
+                        resolve(rows)
+                        console.log(rows);
                     })
-                }).then(() => {
-                    res.send('Update match success')
-                    conn.commit((err) => {
-                        if (err) {
-                            reject(err)
-                        }
+            }).then((response) => {
+                return q.promise((resolve, reject, notify) => {
+                    conn.query('UPDATE `detail_event` set group_id = ? where mem_id = ? and event_id = ? ', [null, req.body.mem_id, req.body.event_id], (err, rows, fields) => {
+                        if (err) reject(err)
+                        resolve('ok')
                     })
-                    conn.release()
-                }).catch((err) => {
-                    conn.rollback((err) => {
-                        console.log(err)
-                    })
-                    conn.release()
                 })
+            }).then(() => {
+                res.send('Update match success')
+                conn.commit((err) => {
+                    if (err) {
+                        reject(err)
+                    }
+                })
+                conn.release()
+            }).catch((err) => {
+                conn.rollback((err) => {
+                    console.log(err)
+                })
+                conn.release()
             })
         })
     })
-    // ///////////////////////////////////////////////////////////////////
-    // การจับคู่แบบ ผู้สมัครมีคู่มากด้วย
+})
+// ///////////////////////////////////////////////////////////////////
+// การจับคู่แบบ ผู้สมัครมีคู่มากด้วย
 router.post('/match/with', cors(corsOptions), (req, res) => {
     pool.getConnection((err, conn) => {
         conn.beginTransaction((transactionError) => {
