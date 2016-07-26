@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.5.2
+-- version 4.5.1
 -- http://www.phpmyadmin.net
 --
--- Host: localhost
--- Generation Time: Jul 14, 2016 at 01:09 PM
+-- Host: 127.0.0.1
+-- Generation Time: Jul 26, 2016 at 03:13 AM
 -- Server version: 10.1.13-MariaDB
--- PHP Version: 5.6.21
+-- PHP Version: 5.6.23
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -51,25 +51,25 @@ CREATE TABLE `detail_event` (
   `detail_price` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `event_id` int(6) NOT NULL,
   `group_id` int(6) DEFAULT NULL,
-  `status_pay` enum('register','paid','attended') COLLATE utf8mb4_unicode_ci NOT NULL
+  `status_pay` enum('register','paid','attended') COLLATE utf8mb4_unicode_ci NOT NULL,
+  `url_pay` text COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `detail_event`
 --
 
-INSERT INTO `detail_event` (`detail_id`, `mem_id`, `detail_match`, `detail_size`, `detail_price`, `event_id`, `group_id`, `status_pay`) VALUES
-(94, 113, 'active', 'L', '200', 19, 1, 'register'),
-(95, 114, 'active', 'L', '200', 19, 1, 'register'),
-(96, 115, 'active', 'L', '200', 19, 2, 'register'),
-(97, 116, 'active', 'L', '200', 19, 2, 'register'),
-(98, 117, 'active', 'L', '200', 19, 3, 'register'),
-(99, 118, 'active', 'L', '200', 19, 3, 'register'),
-(100, 119, 'active', 'L', '200', 18, NULL, 'register'),
-(101, 120, 'active', 'L', '200', 18, NULL, 'register'),
-(102, 121, 'active', 'L', '200', 18, NULL, 'register'),
-(103, 122, 'active', 'L', '200', 18, NULL, 'register'),
-(104, 123, 'active', 'L', '200', 19, NULL, 'register');
+INSERT INTO `detail_event` (`detail_id`, `mem_id`, `detail_match`, `detail_size`, `detail_price`, `event_id`, `group_id`, `status_pay`, `url_pay`) VALUES
+(1, 1, 'active', 'm', '200', 1, 1, 'attended', ''),
+(2, 2, 'active', 'l', '200', 1, 1, 'attended', ''),
+(3, 4, 'active', 'L', '200', 1, 2, 'attended', ''),
+(4, 3, 'active', 'L', '200', 1, 2, 'attended', ''),
+(5, 18, 'unactive', 'L', '200', 2, NULL, 'register', ''),
+(6, 19, 'unactive', 'L', '200', 2, NULL, 'register', ''),
+(7, 20, 'unactive', 'L', '200', 2, NULL, 'register', ''),
+(8, 21, 'unactive', 'L', '200', 2, NULL, 'register', ''),
+(9, 22, 'unactive', 'L', '200', 2, NULL, 'register', ''),
+(10, 23, 'unactive', 'L', '200', 19, NULL, 'register', '');
 
 -- --------------------------------------------------------
 
@@ -95,10 +95,18 @@ CREATE TABLE `event` (
 --
 
 INSERT INTO `event` (`event_id`, `event_name`, `event_date_start`, `event_date_open`, `event_date_close`, `event_location`, `event_distance`, `event_optional`, `event_price`, `event_size`) VALUES
-(19, 'วิ่งด้วยกัน ครั้้งที่ 2', '2016-07-11 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'Pracha Rat Sai 1 Rd, แขวง วงศ์สว่าง เขต บางซื่อ กรุงเทพมหานคร 10800', '3,8,10', '', '200', ''),
-(20, 'วิ่งด้วยกัน ครั้้งที่ 55', '2016-07-10 17:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'Pracha Rat Sai 1 Rd, แขวง วงศ์สว่าง เขต บางซื่อ กรุงเทพมหานคร 10800', '3,8,10', '', '200,500,600', ''),
-(21, 'วิ่งด้วยกัน ครัz้งที่ 99', '2016-07-11 17:00:00', '2555-08-12 00:00:00', '0000-00-00 00:00:00', 'Pracha Rat Sai 1 Rd, แขวง วงศ์สว่าง เขต บางซื่อ กรุงเทพมหานคร 10800', '3,8,10', '', '200', ''),
-(22, 'วิ่งด้วยกัน ครั้้งที่ 55', '2016-07-10 17:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'Pracha Rat Sai 1 Rd, แขวง วงศ์สว่าง เขต บางซื่อ กรุงเทพมหานคร 10800', '3,8,10', '', '200', '');
+(1, 'วิ่งด้วยกัน ครัz้งที่ 99', '2016-07-11 17:00:00', '2555-08-12 00:00:00', '0000-00-00 00:00:00', 'Pracha Rat Sai 1 Rd, แขวง วงศ์สว่าง เขต บางซื่อ กรุงเทพมหานคร 10800', '3,8,10', '', '200', ''),
+(2, 'วิ่งด้วยกัน ครั้้งที่ 2', '2016-07-10 17:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'Pracha Rat Sai 1 Rd, แขวง วงศ์สว่าง เขต บางซื่อ กรุงเทพมหานคร 10800', '3,8,10', '', '200,500,600', 's,m,l,xl'),
+(3, 'วิ่งด้วยกัน ครัz้งที่ 3', '2016-07-11 17:00:00', '2555-08-12 00:00:00', '0000-00-00 00:00:00', 'Pracha Rat Sai 1 Rd, แขวง วงศ์สว่าง เขต บางซื่อ กรุงเทพมหานคร 10800', '3,8,10', '', '200', 's,m,l,xl'),
+(4, 'วิ่งด้วยกัน ครั้้งที่ 4', '2016-07-10 17:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'Pracha Rat Sai 1 Rd, แขวง วงศ์สว่าง เขต บางซื่อ กรุงเทพมหานคร 10800', '3,8,10', '', '200', 's,m,l,xl'),
+(5, 'วิ่งด้วยกัน ครั้้งที่ 55', '2016-07-10 17:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'Pracha Rat Sai 1 Rd, แขวง วงศ์สว่าง เขต บางซื่อ กรุงเทพมหานคร 10800', '3,8,10', '', '200', 's,m,l,xl'),
+(6, 'วิ่งด้วยกัน ครั้้งที่ 55', '2016-07-10 17:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'Pracha Rat Sai 1 Rd, แขวง วงศ์สว่าง เขต บางซื่อ กรุงเทพมหานคร 10800', '3,8,10', '', '200', 's,m,l,xl'),
+(7, 'วิ่งด้วยกัน ครั้้งที่ 55', '2016-07-10 17:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'Pracha Rat Sai 1 Rd, แขวง วงศ์สว่าง เขต บางซื่อ กรุงเทพมหานคร 10800', '3,8,10', '', '200', 's,m,l,xl'),
+(8, 'วิ่งด้วยกัน ครั้้งที่ 55', '2016-07-10 17:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'Pracha Rat Sai 1 Rd, แขวง วงศ์สว่าง เขต บางซื่อ กรุงเทพมหานคร 10800', '3,8,10', '', '200', 's,m,l,xl'),
+(10, 'วิ่งด้วยกัน ครั้้งที่ 55', '2016-07-10 17:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'Pracha Rat Sai 1 Rd, แขวง วงศ์สว่าง เขต บางซื่อ กรุงเทพมหานคร 10800', '3,8,10', '', '200', 's,m,l,xl'),
+(11, 'วิ่งด้วยกัน ครั้้งที่ 55', '2016-07-10 17:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'Pracha Rat Sai 1 Rd, แขวง วงศ์สว่าง เขต บางซื่อ กรุงเทพมหานคร 10800', '3,8,10', '', '200', 's,m,l,xl'),
+(12, 'วิ่งด้วยกัน ครั้้งที่ 55', '2016-07-10 17:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'Pracha Rat Sai 1 Rd, แขวง วงศ์สว่าง เขต บางซื่อ กรุงเทพมหานคร 10800', '3,8,10', '', '200', 's,m,l,xl'),
+(13, 'วิ่งด้วยกัน ครัz้งที่ 99', '2016-07-11 17:00:00', '2555-08-12 00:00:00', '0000-00-00 00:00:00', 'Pracha Rat Sai 1 Rd, แขวง วงศ์สว่าง เขต บางซื่อ กรุงเทพมหานคร 10800', '3,8,10', '', '200', '');
 
 -- --------------------------------------------------------
 
@@ -116,14 +124,9 @@ CREATE TABLE `group` (
 --
 
 INSERT INTO `group` (`group_id`, `event_id`) VALUES
-(1, 19),
-(2, 19),
-(3, 19),
-(23, 19),
-(24, 19),
-(25, 19),
-(26, 19),
-(27, 19);
+(1, 1),
+(2, 2),
+(3, 1);
 
 -- --------------------------------------------------------
 
@@ -143,6 +146,7 @@ CREATE TABLE `member` (
   `mem_tel` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL,
   `mem_date` date NOT NULL,
   `mem_pic` text COLLATE utf8mb4_unicode_ci,
+  `mem_location` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `mem_discription` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `mem_department` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `mem_type` enum('normal','disabled') COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -153,17 +157,13 @@ CREATE TABLE `member` (
 -- Dumping data for table `member`
 --
 
-INSERT INTO `member` (`mem_id`, `mem_id_num`, `mem_name`, `mem_surname`, `mem_nickname`, `mem_gender`, `mem_age`, `mem_email`, `mem_tel`, `mem_date`, `mem_pic`, `mem_discription`, `mem_department`, `mem_type`, `mem_disabled_type`) VALUES
-(113, '1730600113916', 'วิโรจน์', 'กาสาวพัทธ์', 'ดม', 'm', '23', 'test-slam@hotmail.com', '029110020', '2016-06-05', 'xxxx', 'อยากวิ่งเล่น', '', 'disabled', ''),
-(114, '1730600113916', 'รุจิรา', 'ธรรมสกุล', 'ดม', 'm', '24', 'test-slam@hotmail.com', '029110020', '2016-06-05', 'xxxx', 'อยากวิ่งเล่น', '', 'normal', ''),
-(115, '1730600113916', 'อดุล', 'กาสาวพัทธ์', 'ดม', 'm', '24', 'test-slam@hotmail.com', '029110020', '2016-06-05', 'xxxx', 'อยากวิ่งเล่น', '', 'normal', ''),
-(116, '1730600113916', 'ขวัญฤดี', 'ปานีสงค์', 'ดม', 'm', '12', 'test-slam@hotmail.com', '029110020', '2016-06-05', 'xxxx', 'อยากวิ่งเล่น', '', 'normal', ''),
-(117, '1730600113916', 'กัญญุตา', 'มาก', 'ดม', 'm', '21', 'infernal-slam@hotmail.com', '029110020', '2016-06-05', 'xxxx', 'so good', '', 'normal', ''),
-(118, '1730600113916', 'อดุล', 'กาสาวพัทธ์', 'ดม', 'm', '24', 'test-slam@hotmail.com', '029110020', '2016-06-05', 'xxxx', 'อยากวิ่งเล่น', '', 'normal', ''),
-(120, '1730600113916', 'xxxxxx', 'กิจสวัสดิ์', 'อั้ม', 'm', '22', 'thanakornaum@gmail.com', '028110804', '0000-00-00', 'xxxxx', '', '', 'disabled', 'blind'),
-(121, '1730600113916', 'xxxxxx', 'กิจสวัสดิ์', 'อั้ม', 'm', '22', 'thanakornaum@gmail.com', '028110804', '0000-00-00', 'xxxxx', '', '', 'disabled', 'blind'),
-(122, '1730600113916', 'xxxxxx', 'กิจสวัสดิ์', 'อั้ม', 'm', '22', 'thanakornaum@gmail.com', '028110804', '0000-00-00', 'xxxxx', '', '', 'disabled', 'blind'),
-(123, '1730600113916', 'xxxxxx', 'กิจสวัสดิ์', 'อั้ม', 'm', '22', 'thanakornaum@gmail.com', '028110804', '0000-00-00', 'xxxxx', '', '', 'disabled', 'blind');
+INSERT INTO `member` (`mem_id`, `mem_id_num`, `mem_name`, `mem_surname`, `mem_nickname`, `mem_gender`, `mem_age`, `mem_email`, `mem_tel`, `mem_date`, `mem_pic`, `mem_location`, `mem_discription`, `mem_department`, `mem_type`, `mem_disabled_type`) VALUES
+(1, '1730600113916', 'อดุล', 'กาสาวพัทธ์', 'ดม', 'm', '24', 'adon-t@gmail.com', '029110020', '1992-12-16', NULL, 'ศูนย์พัฒนาสมรรถภาพคนตาบอด 78/2 ซอยติวานนท์-ปากเกร็ด 1 หมู่ 1 ถนนติวานนท์ ต.บางตลาด อ.ปากเกร็ด จ.นนทบุรี 11120\n', '', '', 'disabled', 'สายตา'),
+(2, '1192122395184', 'ศิริพร', 'พึ่งมี', 'ศิ', 'f', '33', NULL, '0959600212', '1983-07-14', NULL, '41/1 ตรอกศิลป์ ถ.ดินสอ แขวงบวรนิเวศ เขตพระนคร กรุงเทพมหานคร 10200', '', '', 'normal', ''),
+(3, '1720400224916', 'อาคม', 'แสงดี', 'ดิษ', 'm', '42', 'tt-arcom@gmail.com', '021353123', '1992-02-11', '', 'ศูนย์พัฒนาสมรรถภาพคนตาบอด 78/2 ซอยติวานนท์-ปากเกร็ด 1 หมู่ 1 ถนนติวานนท์ ต.บางตลาด อ.ปากเกร็ด จ.นนทบุรี 11120\n', '', '', 'disabled', 'ดาวน์ซินโดรม\n'),
+(4, '1720400224916', 'ธนากร', 'กิจสวัสดิ์', 'อั้ม', 'm', '22', 'thanakornaum@gmail.com', '028110804', '1992-12-06', '', '41/1 ตรอกศิลป์ ถ.ดินสอ แขวงบวรนิเวศ เขตพระนคร กรุงเทพมหานคร 10200', '', '', 'normal', ''),
+(22, '1730600113916', 'ศรัญยู', 'ชาวปากน้ำ', 'ไอซ์', 'm', '18', 'ice-amjung@gmail.com', '034287565', '1998-06-12', '', '090/14 อ.ลำลูก แขวง.จอมพล จ.กทม', 'บ้านคนตาบอด บางแค', '', 'disabled', 'ทางหู'),
+(23, '1234567890123', 'นาย ก', 'กิจสวัสดิ์', 'อั้ม', 'm', '22', 'thanakornaum@gmail.com', '028110804', '0000-00-00', 'xxxxx', '60/5', '', '', 'disabled', 'blind');
 
 -- --------------------------------------------------------
 
@@ -174,34 +174,21 @@ INSERT INTO `member` (`mem_id`, `mem_id_num`, `mem_name`, `mem_surname`, `mem_ni
 CREATE TABLE `user_in_group` (
   `user_group_id` int(6) NOT NULL,
   `mem_id` int(6) NOT NULL,
-  `group_id` int(6) NOT NULL
+  `group_id` int(6) NOT NULL,
+  `status_match` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `user_in_group`
 --
 
-INSERT INTO `user_in_group` (`user_group_id`, `mem_id`, `group_id`) VALUES
-(1, 55, 1),
-(2, 56, 1),
-(3, 1, 2),
-(4, 2, 2),
-(12, 101, 23),
-(13, 100, 23),
-(14, 101, 24),
-(15, 100, 24),
-(16, 101, 25),
-(17, 100, 25),
-(18, 99, 25),
-(19, 234, 25),
-(20, 101, 26),
-(21, 100, 26),
-(22, 99, 26),
-(23, 234, 26),
-(24, 101, 27),
-(25, 100, 27),
-(26, 99, 27),
-(27, 234, 27);
+INSERT INTO `user_in_group` (`user_group_id`, `mem_id`, `group_id`, `status_match`) VALUES
+(1, 1, 1, 'active'),
+(2, 2, 1, 'active'),
+(3, 3, 2, 'actice'),
+(4, 4, 2, 'actice'),
+(5, 99, 3, 'active'),
+(6, 12, 3, 'active');
 
 --
 -- Indexes for dumped tables
@@ -245,27 +232,27 @@ ALTER TABLE `user_in_group`
 -- AUTO_INCREMENT for table `detail_event`
 --
 ALTER TABLE `detail_event`
-  MODIFY `detail_id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=105;
+  MODIFY `detail_id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 --
 -- AUTO_INCREMENT for table `event`
 --
 ALTER TABLE `event`
-  MODIFY `event_id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `event_id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 --
 -- AUTO_INCREMENT for table `group`
 --
 ALTER TABLE `group`
-  MODIFY `group_id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `group_id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `member`
 --
 ALTER TABLE `member`
-  MODIFY `mem_id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=124;
+  MODIFY `mem_id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 --
 -- AUTO_INCREMENT for table `user_in_group`
 --
 ALTER TABLE `user_in_group`
-  MODIFY `user_group_id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `user_group_id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

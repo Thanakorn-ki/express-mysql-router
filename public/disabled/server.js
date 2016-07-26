@@ -436,7 +436,7 @@ router.post('/match', cors(corsOptions), (req, res) => {
                     }
                     conn.query('INSERT INTO `group` values(?,?)', ["NULL", req.body.event_id], (err, rows, fields) => {
                         if (err) reject(err)
-                        // console.log(rows);
+                            // console.log(rows);
                         resolve(rows.insertId)
                     })
 
@@ -453,11 +453,11 @@ router.post('/match', cors(corsOptions), (req, res) => {
                 }).then((responese) => {
                     return q.promise((resolve, reject, notify) => {
                         req.body.mem_id.forEach((item) => {
-                            conn.query('UPDATE `detail_event` set detail_match = ?, group_id = ? where mem_id = ? and event_id = ?', ["active", responese, item, req.body.event_id], (err, rows, fields) => {
-                                if (err) reject(err)
+                                conn.query('UPDATE `detail_event` set detail_match = ?, group_id = ? where mem_id = ? and event_id = ?', ["active", responese, item, req.body.event_id], (err, rows, fields) => {
+                                    if (err) reject(err)
+                                })
                             })
-                        })
-                        // console.log(rows);
+                            // console.log(rows);
                         resolve('rows')
                     })
                 }).then(() => {
@@ -521,41 +521,75 @@ router.put('/match/', cors(corsOptions), (req, res) => {
     // ///////////////////////////////////////////////////////////////////
     // การจับคู่แบบ ผู้สมัครมีคู่มากด้วย
 router.post('/match/with', cors(corsOptions), (req, res) => {
-    pool.getConnection((err, conn) => {
-        conn.beginTransaction((transactionError) => {
-            q.promise((resolve, reject, notify) => {
-                if (transactionError) {
-                    reject(transactionError)
-                }
-                conn.query('UPDATE `user_in_group` set status_match = ? where mem_id = ? and group_id = ?', ["unactive", req.body.mem_id, req.body.group_id],
-                    (err, rows, fields) => {
-                        console.log(req.body);
-                        if (err) reject(err)
-                        resolve(rows)
-                        console.log(rows);
-                    })
-            }).then((response) => {
-                return q.promise((resolve, reject, notify) => {
-                    conn.query('UPDATE `detail_event` set group_id = ? where mem_id = ? and event_id = ? ', [null, req.body.mem_id, req.body.event_id], (err, rows, fields) => {
-                        if (err) reject(err)
-                        resolve('ok')
-                    })
-                })
-            }).then(() => {
-                res.send('Update match success')
-                conn.commit((err) => {
-                    if (err) {
-                        reject(err)
+        pool.getConnection((err, conn) => {
+            conn.beginTransaction((transactionError) => {
+                q.promise((resolve, reject, notify) => {
+                    if (transactionError) {
+                        reject(transactionError)
                     }
+                    conn.query('UPDATE `user_in_group` set status_match = ? where mem_id = ? and group_id = ?', ["unactive", req.body.mem_id, req.body.group_id],
+                        (err, rows, fields) => {
+                            console.log(req.body);
+                            if (err) reject(err)
+                            resolve(rows)
+                            console.log(rows);
+                        })
+                }).then((response) => {
+                    return q.promise((resolve, reject, notify) => {
+                        conn.query('UPDATE `detail_event` set group_id = ? where mem_id = ? and event_id = ? ', [null, req.body.mem_id, req.body.event_id], (err, rows, fields) => {
+                            if (err) reject(err)
+                            resolve('ok')
+                        })
+                    })
+                }).then(() => {
+                    res.send('Update match success')
+                    conn.commit((err) => {
+                        if (err) {
+                            reject(err)
+                        }
+                    })
+                    conn.release()
+                }).catch((err) => {
+                    conn.rollback((err) => {
+                        console.log(err)
+                    })
+                    conn.release()
                 })
-                conn.release()
-            }).catch((err) => {
-                conn.rollback((err) => {
-                    console.log(err)
-                })
-                conn.release()
             })
         })
+    })
+    // ////////////////////////////////////////////////////
+    // edit pay
+router.put('/detail_event/pay', cors(corsOptions), (req, res) => {
+    pool.getConnection((err, conn) => {
+        conn.query('UPDATE `detail_event` set url_pay = ? where mem_id = ? and group_id = ? and event_id = ?', [req.body.url_pay, req.body.mem_id, req.body.group_id, req.body.event_id],
+            (err, rows, fields) => {
+                // console.log(req.body);
+                if (err) {
+                  throw (err)
+                  res.send({message:"False", status:404 ,statusText:"Not Found"})
+                } else {
+                  res.send({message:"update success", status:200,statusText:"OK"})
+                }
+                // console.log(rows);
+            })
+    })
+})
+// //////////////////////////////////////////
+// edit status_pay
+router.put('/detail_event/status_pay', cors(corsOptions), (req, res) => {
+    pool.getConnection((err, conn) => {
+        conn.query('UPDATE `detail_event` set status_pay = ? where mem_id = ? and group_id = ? and event_id = ?', [req.body.status_pay, req.body.mem_id, req.body.group_id, req.body.event_id],
+            (err, rows, fields) => {
+                // console.log(req.body);
+                if (err) {
+                  throw (err)
+                  res.send({message:"False", status:404 ,statusText:"Not Found"})
+                } else {
+                  res.send({message:"update success", status:200,statusText:"OK"})
+                }
+                // console.log(rows);
+            })
     })
 })
 module.exports = router
