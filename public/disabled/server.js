@@ -592,4 +592,22 @@ router.put('/detail_event/status_pay', cors(corsOptions), (req, res) => {
             })
     })
 })
+// ////////////////////////////////////////////
+// login
+router.post('/login', cors(corsOptions), (req, res) => {
+    pool.getConnection((err, conn) => {
+        conn.query('SELECT * FROM user WHERE username = ? and password = ?', [req.body.username, req.body.password],
+            (err, rows, fields) => {
+                // console.log(req.body);
+                // console.log(rows);
+                if (err) {
+                  throw (err)
+                  res.send({message:"False", status:404 ,statusText:"Not Found"})
+                } else {
+                  res.send({message:"success", status:200,statusText:"OK",data:rows})
+                }
+                // console.log(rows);
+            })
+    })
+})
 module.exports = router
